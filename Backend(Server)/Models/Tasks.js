@@ -17,10 +17,11 @@ var TaskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Course :[{
+    Course :{
         type: mongoose.Schema.ObjectId,
-        ref: 'Repo'
-    }],
+        ref: 'Repo',
+        default:null
+        },
     Program : {
         type: String,
     },
