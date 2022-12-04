@@ -21,21 +21,29 @@ module.exports.showUsers = async (req, res) => {
     try {
     if (!req.user) return await res.status(401).json("Timed Out");
     const user = await Userdoc.findById(req.user._id).populate('CourseCDF');
-    const arr = user.CourseCDF.filter((i)=>{
-        if(i.Code==req.params.Code)return i
-      })
+
+    var rm
+    const newCourseCreation =  user.CourseCDF.filter((x)=>{
+      if(x.Code!=req.params.Code){
+         return x._id
+        }
+      else{
+        rm=x._id
+      }
+    })
     var arr2 = ["Create CDF","Update CDF"]
-    const task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Course:{$in:arr}}).populate("User")
+    const task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Course:rm}).populate("User")
     .populate({path:"User",Model:"User", populate:{path:"CourseCDF",model:"Repo"}})
     
     const date=new Date(Date.now())
     const date2=new Date(task.Deadline)
     if(date2<date){return await res.status(401).json("Deadline Passed")}
-    console.log("\n\n\n\n\n\n\n\n",task,"\n\n\n\n\n\n\n\n")
 
     const Version = await Versionodoc.find({Code:req.params.Code},{_id:0})
     if(Version.length<1){return await res.status(404).json("No Versions")}
+    
     const obj = Version[Version.length - 1]
+    
     console.log("\n\n\n\n\n\n\n\n obj",obj)
     
     task.Status = "Returned"
