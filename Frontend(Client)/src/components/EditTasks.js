@@ -281,63 +281,34 @@ export default function EditTasks(props) {
               props.pre.taskType == "Update Syllabus" ? (
                 <div>
                   <FormControl fullWidth size="small">
-                    <Autocomplete
+                    <InputLabel id="taskType">Assign Course</InputLabel>
+                    <Select
                       className="mb-4"
-                      multiple
-                      id="tags-standard"
+                      labelId="courseAssign"
+                      id="courseAssign"
                       value={obj[index].Course}
-                      options={RepoCourse}
-                      getOptionLabel={(option) => option.Code+" "+option.Name}
-                      defaultValue={null}
-                      onChange={(e, val) => { 
+                      label="Assign Teacher"
+                      onChange={(e) => {
                         const clone = [...obj];
-                        clone[index].Course = [...val];
+                        clone[index].Course = e.target.value;
                         setobj([...clone]);
-                        }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label="Select Course"
-                          placeholder="Select Course"
-                          size="small"
-                        />
-                      )}
-                    />
+                      }}
+                      autoWidth
+                    > 
+                    <MenuItem value={obj[index].Course} selected disabled>
+                      {obj[index].Course.Code + "  " + obj[index].Course.Name}
+                      </MenuItem>
+
+                      {RepoCourse.map((a) => {
+                        return (
+                          <MenuItem value={a}>
+                            {a.Code + "  " + a.Name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
                   </FormControl>
-              </div>
-
-                // <div>
-                //   <FormControl fullWidth size="small">
-                //     <InputLabel id="taskType">Assign Course</InputLabel>
-                //     <Select
-                //       className="mb-4"
-                //       labelId="courseAssign"
-                //       id="courseAssign"
-                //       value={obj[index].Course}
-                //       label="Assign Teacher"
-                //       onChange={(e) => {
-                //         const clone = [...obj];
-                //         clone[index].Course = e.target.value;
-                //         setobj([...clone]);
-                //       }}
-                //       autoWidth
-                //     > 
-                //     <MenuItem value={obj[index].Course} selected disabled>
-                //       {obj[index].Course.Code + "  " + obj[index].Course.Name}
-                //       </MenuItem>
-
-                //       {RepoCourse.map((a) => {
-                //         return (
-                //           <MenuItem value={a}>
-                //             {a.Code + "  " + a.Name}
-                //           </MenuItem>
-                //         );
-                //       })}
-                //     </Select>
-                //   </FormControl>
-                // </div>
-
+                </div>
               ) : props.pre.taskType == "Create SOS" ? (
                 <div className="col">
                   <FormControl fullWidth size="small">

@@ -503,13 +503,11 @@ module.exports.UpdateInside = async (req, res) => {
       "AssignMember"
     );
     console.log("ini", Inis1.Task);
-    
-    
-    await Promise.all(
-      Inis1?.Task?.map(async (e) => {
+    Promise.all(
+      Inis1.Task.map(async (e) => {
         const abc = await Task.findById(e).populate("User");
         await Promise.all(
-          abc?.User?.map(async (j) => {
+          abc.User.map(async (j) => {
             if (
               abc.taskType == "Create Catalog Description" ||
               abc.taskType == "Update Catalog Description"
@@ -519,41 +517,31 @@ module.exports.UpdateInside = async (req, res) => {
               //   }))
               //   console.log("\n\n\n clone",clone)
               //   abc.User.CourseCreation=clone
-              await Promise.all(abc.Course.map(async(l)=>{
-                  const up = await Userdoc.updateOne(
-                  { _id: j._id },
-                  { $pullAll: { CourseCreation: [{ _id: l }] } },
-                  { multi: true }
-                );
-                console.log("\n\nup", up);
-              }))
-              
+              const up = await Userdoc.updateOne(
+                { _id: j._id },
+                { $pullAll: { CourseCreation: [{ _id: abc.Course }] } },
+                { multi: true }
+              );
+              console.log("\n\nup", up);
             } else if (
               abc.taskType == "Create CDF" ||
               abc.taskType == "Update CDF"
             ) {
-              await Promise.all(abc.Course.map(async(l)=>{
-                const up = await Userdoc.updateOne(
-                  { _id: j._id },
-                  { $pullAll: { CourseCDF: [{ _id: l }] } },
-                  { multi: true }
-                );
-                console.log("\n\nup", up);
-              }))
-
+              const up = await Userdoc.updateOne(
+                { _id: j._id },
+                { $pullAll: { CourseCDF: [{ _id: abc.Course }] } },
+                { multi: true }
+              );
+              console.log("\n\nup", up);
             } else if (
               abc.taskType == "Create Syllabus" ||
               abc.taskType == "Update Syllabus"
             ) {
-              await Promise.all(abc.Course.map(async(l)=>{
-                const up = await Userdoc.updateOne(
-                  { _id: j._id },
-                  { $pullAll: { CourseSyllabus: [{ _id: l }] } },
-                  { multi: true }
-                );
-                console.log("\n\nup", up);
-              }))
-              
+              const up = await Userdoc.updateOne(
+                { _id: j._id },
+                { $pullAll: { CourseSyllabus: [{ _id: abc.Course }] } },
+                { multi: true }
+              );
               // const up = await Userdoc.updateOne({ _id: {$in:abc.User} },
               //   { $pullAll : { CourseSyllabus :[ {_id : abc.Course }] } },
               //   { multi : true }
@@ -562,10 +550,11 @@ module.exports.UpdateInside = async (req, res) => {
             } else if (
               abc.taskType == "Create SOS" ||
               abc.taskType == "Update SOS"
-            ) {              
+            ) {
               const upuser = await Userdoc.findOne({ _id: j._id });
               var newSOSCreation = []
               upuser.SOSCreation.map((j)=>{
+
                 if(j.Program!=abc.Program&&!newSOSCreation.some(k=>k.Program==j.Program)){
                  newSOSCreation.push(j)
                 }  
@@ -582,8 +571,11 @@ module.exports.UpdateInside = async (req, res) => {
         await Task.deleteOne({ _id: e });
       })
     );
+
     console.log("body", req.body);
+
     console.log("body.obj", req.body.obj);
+
     var Tasks = await Promise.all(
       req.body.obj.map(async (e) => {
         try {
@@ -630,9 +622,7 @@ module.exports.UpdateInside = async (req, res) => {
         ) {
           e.User.map(async (i) => {
             var ind = arrays.findIndex((j) => j._id.equals(i._id));
-            e.Course.forEach((j)=>{
-              arrays[ind].CourseCreation.push(j._id)
-            })
+            arrays[ind].CourseCreation.push(e.Course._id);
           });
         } else if (e.taskType == "Create SOS" || e.taskType == "Update SOS") {
           e.User.map(async (i) => {
@@ -649,9 +639,7 @@ module.exports.UpdateInside = async (req, res) => {
         } else if (e.taskType == "Create CDF" || e.taskType == "Update CDF") {
           e.User.map(async (i) => {
             var ind = arrays.findIndex((j) => j._id.equals(i._id));
-            e.Course.forEach((j)=>{
-              arrays[ind].CourseCDF.push(j._id)
-            })
+            arrays[ind].CourseCDF.push(e.Course._id);
           });
         } 
         else if (
@@ -660,9 +648,7 @@ module.exports.UpdateInside = async (req, res) => {
         ) {
           e.User.map(async (i) => {
             var ind = arrays.findIndex((j) => j._id.equals(i._id));
-            e.Course.forEach((j)=>{
-              arrays[ind].CourseSyllabus.push(j._id)
-            })
+            arrays[ind].CourseSyllabus.push(e.Course._id);
           });
         }
       })
@@ -783,41 +769,31 @@ module.exports.Delete = async (req, res) => {
               //   }))
               //   console.log("\n\n\n clone",clone)
               //   abc.User.CourseCreation=clone
-              await Promise.all(abc.Course.map(async(l)=>{
-                  const up = await Userdoc.updateOne(
-                  { _id: j._id },
-                  { $pullAll: { CourseCreation: [{ _id: l }] } },
-                  { multi: true }
-                );
-                console.log("\n\nup", up);
-              }))
-              
+              const up = await Userdoc.updateOne(
+                { _id: j._id },
+                { $pullAll: { CourseCreation: [{ _id: abc.Course }] } },
+                { multi: true }
+              );
+              console.log("\n\nup", up);
             } else if (
               abc.taskType == "Create CDF" ||
               abc.taskType == "Update CDF"
             ) {
-              await Promise.all(abc.Course.map(async(l)=>{
-                const up = await Userdoc.updateOne(
-                  { _id: j._id },
-                  { $pullAll: { CourseCDF: [{ _id: l }] } },
-                  { multi: true }
-                );
-                console.log("\n\nup", up);
-              }))
-
+              const up = await Userdoc.updateOne(
+                { _id: j._id },
+                { $pullAll: { CourseCDF: [{ _id: abc.Course }] } },
+                { multi: true }
+              );
+              console.log("\n\nup", up);
             } else if (
               abc.taskType == "Create Syllabus" ||
               abc.taskType == "Update Syllabus"
             ) {
-              await Promise.all(abc.Course.map(async(l)=>{
-                const up = await Userdoc.updateOne(
-                  { _id: j._id },
-                  { $pullAll: { CourseSyllabus: [{ _id: l }] } },
-                  { multi: true }
-                );
-                console.log("\n\nup", up);
-              }))
-              
+              const up = await Userdoc.updateOne(
+                { _id: j._id },
+                { $pullAll: { CourseSyllabus: [{ _id: abc.Course }] } },
+                { multi: true }
+              );
               // const up = await Userdoc.updateOne({ _id: {$in:abc.User} },
               //   { $pullAll : { CourseSyllabus :[ {_id : abc.Course }] } },
               //   { multi : true }

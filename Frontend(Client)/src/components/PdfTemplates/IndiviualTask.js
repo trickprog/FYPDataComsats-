@@ -119,7 +119,7 @@ export default function IndiviualTask() {
                           ) : (
                             <div className="col">
                               <p>
-                                <b>Course Assigned: </b> {q.Course.map((i) => i.Name)}
+                                <b>Course Assigned: </b> {q.Course.Name}
                               </p>
                             </div>
                           )}
