@@ -15,7 +15,7 @@ import CourseFinal from "../Admin/CourseFinal";
 import { Route, Routes } from "react-router-dom";
 import CourseRepo from "../Admin/CourseRepo";
 import FacultyMembers from "../FacultyMember";
-import CourseFolderReport from '../PdfTemplates/CourseFolderReport'
+import CourseFolderReport from "../PdfTemplates/CourseFolderReport";
 import Profile from "../AuxillaryComponents/UserProfile";
 
 import CourseReturnedView from "../Admin/CourseReturnedView";
@@ -56,10 +56,11 @@ import CoursesPrereq from "../PdfTemplates/CoursesPrereq";
 import Courseswithcd from "../PdfTemplates/Courseswithcd";
 import Courseswithoutcd from "../PdfTemplates/Courseswithoutcd";
 import AvailableCodes from "../PdfTemplates/AvailableCodes";
-import ProgramReport from "../PdfTemplates/ProgramReport"
+import ProgramReport from "../PdfTemplates/ProgramReport";
 import FacultyCourseReport from "../PdfTemplates/FacultyCourseReport";
 import EvaluatorCourseReport from "../PdfTemplates/EvaluatorCourseReport";
 import ReturnedPage from "../Faculty/ReturnedPageEvaluator";
+import CourseFolderCombinedReport from "../PdfTemplates/CourseFolderCombinedReport";
 
 function AdminRoutes() {
   return (
@@ -73,6 +74,11 @@ function AdminRoutes() {
         <Route path="/CourseView/:id" element={<CourseFinal />} />
         <Route path="/AllCourses" element={<AllCourses />} />
         <Route path="/CourseFolderReport" element={<CourseFolderReport />} />
+        <Route
+          path="/CourseFolderCombinedReport"
+          element={<CourseFolderCombinedReport />}
+        />
+
         <Route path="/ReturnedEvaluation" element={<ReturnedPage />} />
 
         <Route path="/CourseReport" element={<CourseReport />} />
@@ -83,23 +89,38 @@ function AdminRoutes() {
         <Route path="/AvailableCodes" element={<AvailableCodes />} />
 
         <Route path="/FacultyCourseReport" element={<FacultyCourseReport />} />
-        <Route path="/EvaluatorCourseReport" element={<EvaluatorCourseReport />} />
+        <Route
+          path="/EvaluatorCourseReport"
+          element={<EvaluatorCourseReport />}
+        />
 
         <Route path="/Returned" element={<Returned />} />
         <Route path="/OngoingTasks" element={<OngoingTasks />} />
         <Route path="/IndiviualTask/:tid" element={<IndiviualTask />} />
         <Route path="/FolderInRevisionA" element={<AdminFolderInRevision />} />
         <Route path="/Returned" element={<ReturnedPageAdmin />} />
-        <Route path="/CourseReturnedView/:Code" element={<CourseReturnedView />} />
+        <Route
+          path="/CourseReturnedView/:Code"
+          element={<CourseReturnedView />}
+        />
         <Route path="/SOSReturnedView/:Program" element={<SOSReturnedView />} />
         <Route path="/CDFReturnedView/:Code" element={<CDFReturnedView />} />
-        <Route path="SyllabusReturnedView/:Code" element={<SyllabusReturnedView />} />
+        <Route
+          path="SyllabusReturnedView/:Code"
+          element={<SyllabusReturnedView />}
+        />
         <Route path="/EditCourse/:id" element={<EditCourseForm />} />
         <Route path="/CreateNewMeeting" element={<CreateNewMeeting />} />
         <Route path="/AllSyllabus" element={<AllSyllabus />} />
         <Route path="/AllCourseFolder" element={<AllCourseFolder />} />
-        <Route path="/SyllabusView/:Program/:Code/:id" element={<SyllabusFinal />} />
-        <Route path="/ViewCacMemberAvailabilty" element={<ViewCacAvailability />} />
+        <Route
+          path="/SyllabusView/:Program/:Code/:id"
+          element={<SyllabusFinal />}
+        />
+        <Route
+          path="/ViewCacMemberAvailabilty"
+          element={<ViewCacAvailability />}
+        />
         <Route path="/AllSchemeofStudies" element={<AllSchemeofStudies />} />
         <Route path="/CourseFolderTheory" element={<CourseFolderTheory />} />
         <Route path="/CourseFolderLab" element={<CourseFolderLab />} />
@@ -118,7 +139,7 @@ function AdminRoutes() {
         <Route path="/Evaluators" element={<Evaluators />} />
         <Route path="/CourseFolder" element={<CourseFolder />} />
 
-        <Route path="/AddProgram" element={<AddProgram />} />        
+        <Route path="/AddProgram" element={<AddProgram />} />
         <Route path="/AddProgram/report/:Degree" element={<ProgramReport />} />
 
         <Route path="/SO" element={<SO_Level />} />
@@ -129,7 +150,10 @@ function AdminRoutes() {
         <Route path="/InitializeTask" element={<InitializeTask />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/CreateSOS" element={<CreateSOS />} />
-        <Route path="/PendingDeadlineRequests" element={<PendingDeadlineRequests />} />
+        <Route
+          path="/PendingDeadlineRequests"
+          element={<PendingDeadlineRequests />}
+        />
         <Route path="/LateSubmissions" element={<LateSub />} />
         <Route path="/ReturnedTasks" element={<ReturnedTasks />} />
         <Route path="/CompletedTasks" element={<CompletedTasks />} />

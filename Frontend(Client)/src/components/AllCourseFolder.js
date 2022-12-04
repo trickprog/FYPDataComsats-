@@ -5,35 +5,36 @@ import { DataGrid } from "@mui/x-data-grid";
 import { muiAbtn, muibtn } from "./style";
 import CustomNoRowsOverlay from "./AuxillaryComponents/CustomNoRowsOverlay";
 import { Card, LinearProgress, Tooltip } from "@mui/material";
-import { AiFillEdit, AiFillEye } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillEye } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 const columns = [
   {
     field: "Program",
     headerName: "Program",
-    flex: 1,
+    width: "200",
   },
   {
     field: "Course",
     headerName: "Course",
-    flex: 1,
+    width: "350",
   },
   {
     field: "Faculty",
     headerName: "Faculty",
-    flex: 1,
+    width: "180",
   },
   {
     field: "Evaluator",
     headerName: "Evaluator",
-    flex: 1,
+    width: "180",
   },
   {
     field: "actions",
     headerName: "Actions",
-    flex: 1,
+    width: "450",
+
     editable: false,
     renderCell: HandleButton,
   },
@@ -46,37 +47,30 @@ function HandleButton(row) {
   };
   const senddata1 = (roww) => {
     console.log("helllo", roww);
-    navigate('/Admin/ReturnedEvaluation',{state:roww.row})
+    navigate("/Admin/ReturnedEvaluation", { state: roww.row });
   };
   return (
     <>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          style={{
-            backgroundColor: "#4b2980",
-            marginLeft: 10,
-            padding: 10,
-          }}
-          onClick={() => {
-            senddata(row);
-            //navigate('/Faculty/Returned',{state:{row:row}})
-          }}
-          // onClick={handleOpenClo}
-        >
-          <AiFillEye />
-        </Button>
-        
-        <Button
+      <Button
         variant="contained"
         color="primary"
         size="small"
-        style={{
-          backgroundColor: "#4b2980",
-          marginLeft: 10,
-          padding: 10,
+        style={muiAbtn}
+        onClick={() => {
+          senddata(row);
+          //navigate('/Faculty/Returned',{state:{row:row}})
         }}
+        // onClick={handleOpenClo}
+      >
+        <AiFillEye style={{ marginRight: 10 }} />
+        Folder
+      </Button>
+
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={muiAbtn}
         onClick={() => {
           senddata1(row);
           //navigate('/Faculty/Returned',{state:{row:row}})
@@ -84,6 +78,18 @@ function HandleButton(row) {
       >
         <AiFillEye style={{ marginRight: 10 }} />
         Evaluation
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={muiAbtn}
+        // onClick={() => {
+
+        // }}
+      >
+        <AiFillDelete style={{ marginRight: 10 }} />
+        Delete
       </Button>
     </>
   );
@@ -99,12 +105,12 @@ export default function AllCourseFolder() {
   const getData = async () => {
     const res = await axios.get(`http://localhost:4000/EvalFolders/showfolder`);
     setPosts(res.data);
-    console.log("res",res.data)
+    console.log("res", res.data);
     var row = [];
     var index = 0;
     res.data.map((val, id) => {
-      if ( val.WantRevision==false) {
-        row.push( {
+      if (val.WantRevision == false) {
+        row.push({
           _id: val?._id,
           id: id,
           Program: val?.Program,
@@ -112,14 +118,12 @@ export default function AllCourseFolder() {
           Evaluator: val.Evaluator?.Name,
           Faculty: val.User?.Name,
           data: val,
-        })
+        });
       }
     });
     console.log("uajh", row);
     setRows(row);
   };
-
-  
 
   return (
     <div

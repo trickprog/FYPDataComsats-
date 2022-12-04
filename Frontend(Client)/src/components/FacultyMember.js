@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/styles.css";
 import axios from "axios";
-import { Link, useParams,useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -57,7 +57,7 @@ export default function FacultyMembers() {
   const [Courses, setCourse] = useState([[]]);
   const [Programdb, setProgramdb] = useState([]);
   const [User, setUser] = useState("");
-  const [folders,setfolders]=useState([])
+  const [folders, setfolders] = useState([]);
   const [obj, setobj] = useState([
     {
       Program: "",
@@ -84,7 +84,7 @@ export default function FacultyMembers() {
     getPrograms();
     getData();
   }, []);
-  
+
   const getData = async () => {
     const response = await axios.get("http://localhost:4000/User/show/Faculty");
     setRows(response.data);
@@ -134,15 +134,21 @@ export default function FacultyMembers() {
     if (verify) {
       try {
         if (!up) {
-         const a= await axios.post("http://localhost:4000/AssginFolders/add", {
-            obj,
-            User,
-          });
+          const a = await axios.post(
+            "http://localhost:4000/AssginFolders/add",
+            {
+              obj,
+              User,
+            }
+          );
         } else {
-         const b= await axios.post("http://localhost:4000/AssginFolders/add2", {
-            obj,
-            User,
-          });
+          const b = await axios.post(
+            "http://localhost:4000/AssginFolders/add2",
+            {
+              obj,
+              User,
+            }
+          );
         }
         getData();
         handleClose();
@@ -205,32 +211,35 @@ export default function FacultyMembers() {
               <AiFillEdit style={{ marginRight: 10 }} />
               Assign Course
             </Button>
-          ) : (<>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              style={muiAbtn}
-              onClick={() => {
-                setUser(row);
-                getobjs(row._id);
-              }}
-            >
-              <AiFillEdit style={{ marginRight: 10 }} />
-              Edit Course
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              style={muiAbtn}
-              onClick={() => {
-                navigate("/admin/CourseFolderReport",{state:{row:row}})
-              }}
-            >
-              <AiFillEdit style={{ marginRight: 10 }} />
-              View Course report
-            </Button>
+          ) : (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                style={muiAbtn}
+                onClick={() => {
+                  setUser(row);
+                  getobjs(row._id);
+                }}
+              >
+                <AiFillEdit style={{ marginRight: 10 }} />
+                Edit Course
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                style={muiAbtn}
+                onClick={() => {
+                  navigate("/admin/CourseFolderReport", {
+                    state: { row: row },
+                  });
+                }}
+              >
+                <AiFillEdit style={{ marginRight: 10 }} />
+                View Course report
+              </Button>
             </>
           )}
           <Button
@@ -271,11 +280,24 @@ export default function FacultyMembers() {
             color="primary"
             size="small"
             onClick={() => {
+              navigate("/Admin/CourseFolderCombinedReport");
+            }}
+          >
+            <AiFillFilePdf style={{ marginRight: 10 }} />
+            Generate Submission Report
+          </Button>
+          <Button
+            style={muibtn}
+            variant="contained"
+            className="ms-4"
+            color="primary"
+            size="small"
+            onClick={() => {
               navigate("/Admin/FacultyCourseReport");
             }}
           >
             <AiFillFilePdf style={{ marginRight: 10 }} />
-            Generate Report
+            Generate Assignment Report
           </Button>
           <Button
             variant="contained"
@@ -395,7 +417,11 @@ export default function FacultyMembers() {
                           </MenuItem>
                         )}
                         {Programdb.map((p) => {
-                          return <MenuItem value={p.Program}>{p.Program} ({p.Year})</MenuItem>;
+                          return (
+                            <MenuItem value={p.Program}>
+                              {p.Program} ({p.Year})
+                            </MenuItem>
+                          );
                         })}
                       </Select>
                     </FormControl>
