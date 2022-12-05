@@ -313,9 +313,10 @@ export default function CreateSOS() {
             fullWidth
             value={Year}
             onChange={(e) =>{
-              if(isNaN(e.target.value))alert("enter a numeric value")
-              else if(e.target.value.length>4)alert("enter a 4 digit year")
-              else setYear(e.target.value)
+              if(isNaN(e.target.value)){alert("enter a numeric value")}                      
+              else if(e.target.value.length>4){alert("enter a 4 digit year")}
+              else{setYear(e.target.value)}
+          
             }}
           />
         </FormControl>

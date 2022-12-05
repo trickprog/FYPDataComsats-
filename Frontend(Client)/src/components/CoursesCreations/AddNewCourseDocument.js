@@ -205,10 +205,12 @@ export default function AddNewCourseDocument() {
                     fullWidth
                     value={BookYear}
                     onChange={(e) => {
-                      if (isNaN(e.target.value)) alert("enter a numeric value");
-                      else if (e.target.value.length > 4)
-                        alert("enter a 4 digit year");
-                      else setBookYear(e.target.value);
+                      if(isNaN(e.target.value)){alert("enter a numeric value")}
+                      
+                      else if(e.target.value.length>4){alert("enter a 4 digit year")}
+                      else{ 
+                        setBookYear(e.target.value)}
+                  
                     }}
                   ></TextField>
                 </div>
@@ -335,18 +337,25 @@ export default function AddNewCourseDocument() {
                 padding: 10,
               }}
               onClick={() => {
-                var data = objectiveList.filter(
-                  (obj) => obj.id !== props.row.id
-                );
-                var list = data.map((i) => {
-                  var tt = i.title.slice(0, -1);
-                  i.title = tt + ";";
-                  return i;
-                });
-                var tt = list[list.length - 1].title.slice(0, -1) + ".";
-                list[list.length - 1].title = tt;
-                setObjectiveList([...list]);
-              }}
+                if(objectiveList.length==1){
+                  setObjectiveList([]);  
+                }
+                else{
+                  var data = objectiveList.filter((obj)=>{
+                        if(obj.id != props.row.id){
+                          return(obj)
+                        }
+                      }
+                  );
+                  var list = data.map((i) => {
+                    var tt = i.title.slice(0, -1);
+                    i.title = tt + ";";
+                    return i;
+                  });
+                  var tt = list[list.length - 1].title.slice(0, -1) + ".";
+                  list[list.length - 1].title = tt;
+                  setObjectiveList([...list]);
+              }}}
             >
               <AiFillDelete />
             </Button>
@@ -771,10 +780,11 @@ export default function AddNewCourseDocument() {
                     fullWidth
                     value={BookYear}
                     onChange={(e) => {
-                      if (isNaN(e.target.value)) alert("enter a numeric value");
-                      else if (e.target.value > 4)
-                        alert("enter a 4 digit year");
-                      else setBookYear(e.target.value);
+                      if(isNaN(e.target.value)){alert("enter a numeric value")}
+                      
+                      else if(e.target.value.length>4){alert("enter a 4 digit year")}
+                      else{setBookYear(e.target.value)}
+                                    
                     }}
                   ></TextField>
                 </div>

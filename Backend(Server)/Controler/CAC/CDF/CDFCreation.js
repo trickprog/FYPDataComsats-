@@ -34,17 +34,17 @@ module.exports.showUsers = async (req, res) => {
     var arr2 = ["Create CDF","Update CDF"]
     const task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Course:rm}).populate("User")
     .populate({path:"User",Model:"User", populate:{path:"CourseCDF",model:"Repo"}})
-    
+    console.log("\n task",task)
     const date=new Date(Date.now())
     const date2=new Date(task.Deadline)
     if(date2<date){return await res.status(401).json("Deadline Passed")}
 
     const Version = await Versionodoc.find({Code:req.params.Code},{_id:0})
     if(Version.length<1){return await res.status(404).json("No Versions")}
-    
+    console.log("\n Version",Version)
     const obj = Version[Version.length - 1]
     
-    console.log("\n\n\n\n\n\n\n\n obj",obj)
+    console.log("\n obj",obj)
     
     task.Status = "Returned"
     const newtask  = await Task.findByIdAndUpdate(task._id,task)
@@ -61,7 +61,7 @@ module.exports.showUsers = async (req, res) => {
     const resss=await Userdoc.find({})
     console.log("ds",resss)
     
-        Mail.TaskReturned(task,newuser.Email)
+        Mail.TaskReturned(task,user.Email)
       
     
     // user.CourseCDF = newCourseCDF
