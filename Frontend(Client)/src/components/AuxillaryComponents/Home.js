@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/styles.css";
 import Popup from "./PopupFunction";
 import Login from "./Login";
@@ -15,7 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import background from "../css/comsats.jpg";
 import comsatslogo from "../CACMember/comsats_logo.png";
-import axios from 'axios'
+import axios from "axios";
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [Programdb, setProgramdb] = useState([]);
@@ -62,7 +62,7 @@ export default function Home() {
           <AppBar
             position="fixed"
             style={{
-              backgroundColor: "#00447f",
+              backgroundColor: "#023866",
               paddingTop: 3,
               paddingBottom: 3,
             }}
@@ -130,7 +130,7 @@ export default function Home() {
         <div>
           <div
             style={{
-              backgroundColor: "#00447f",
+              backgroundColor: "#023866",
               padding: 10,
               textAlign: "center",
             }}
@@ -144,6 +144,7 @@ export default function Home() {
                 labelId="demo-simple-select-label"
                 label="Program"
                 size="medium"
+                className="mb-4"
                 value={Program}
                 onChange={(e) => {
                   setProgram(e.target.value);
@@ -158,7 +159,6 @@ export default function Home() {
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Year</InputLabel>
               <Select
-                className="mb-4"
                 label="Year"
                 size="medium"
                 value={year}
@@ -197,7 +197,7 @@ export default function Home() {
           </Button>
         )}
       </div>
-      <div style={{ backgroundColor: "#00447f" }}>
+      <div style={{ backgroundColor: "#023866" }}>
         <p className="text-white py-3 text-center">
           Copyright © COMSATS University Islamabad, All Rights Reserved.
         </p>
