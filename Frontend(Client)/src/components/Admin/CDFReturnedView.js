@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import "./pdfstyles.css";
-import { useLocation, useNavigate,useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "./Cdfstyles.css";
 import comsatslogo from "../CACMember/comsats_logo.png";
@@ -19,10 +19,10 @@ export default function CDFReturnedView() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const { Code } = useParams()
-  const[LabCLO,setLabCLO]=useState([])
-  const[TheoryCLO,setTheoryCLO]=useState([])
-  const [Totalteaching,setTotalteaching]=useState(0)
+  const { Code } = useParams();
+  const [LabCLO, setLabCLO] = useState([]);
+  const [TheoryCLO, setTheoryCLO] = useState([]);
+  const [Totalteaching, setTotalteaching] = useState(0);
   const [Content, setContent] = useState({
     Code: "",
     Name: "",
@@ -34,62 +34,64 @@ export default function CDFReturnedView() {
     objectiveList: [],
     Books: [],
   });
-  const [CDF, setCDF] = useState(
-    {    Topics:[],
-          CLOs:[],
-          textBook:[],
-          referenceBook:[]}  )
+  const [CDF, setCDF] = useState({
+    Topics: [],
+    CLOs: [],
+    textBook: [],
+    referenceBook: [],
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     getCat();
-    getContent()  
-}, []);
+    getContent();
+  }, []);
 
-const getCat = async () => {
+  const getCat = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/Course/bycode/${Code}`);
+      const response = await axios.get(
+        `http://localhost:4000/Course/bycode/${Code}`
+      );
       console.log(response.data);
       setContent({
         Code: response.data.Code,
         Name: response.data.Name,
-        Credit:response.data.Credit,
+        Credit: response.data.Credit,
         LectureHoursWeek: response.data.LectureHoursWeek,
-        LabHoursWeek: response.data.LabHoursWeek,        
+        LabHoursWeek: response.data.LabHoursWeek,
         PreRequisites: response.data.PreRequisites,
         catalogue: response.data.catalogue,
         objectiveList: response.data.objectiveList,
         Books: response.data.Books,
-      })
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-const getContent = async () => {
-
+  const getContent = async () => {
     const response = await axios.get(
       `http://localhost:4000/CDF/ReturnedCourseCDF/${Code}`
     );
     setCDF(response.data);
-    var sum=0
-    if(response.data.Topics.length>0){
-      response.data.Topics.forEach((i)=> {
-        sum=sum+parseFloat(i.TeachingHours)
-        })
-      }
-      var LabCLOss=[]
-      var TheoryCLOss=[]
-      response.data.CLOs.forEach((i) => {
-        if(i.LaborTheory=="Lab"){
-          LabCLOss = [...LabCLOss, i];
-        } else if(i.LaborTheory=="Theory") {
-          TheoryCLOss = [...TheoryCLOss, i];
-        }
+    var sum = 0;
+    if (response.data.Topics.length > 0) {
+      response.data.Topics.forEach((i) => {
+        sum = sum + parseFloat(i.TeachingHours);
       });
-      setLabCLO([...LabCLOss])
-      setTheoryCLO([...TheoryCLOss])
-      setTotalteaching(sum)
+    }
+    var LabCLOss = [];
+    var TheoryCLOss = [];
+    response.data.CLOs.forEach((i) => {
+      if (i.LaborTheory == "Lab") {
+        LabCLOss = [...LabCLOss, i];
+      } else if (i.LaborTheory == "Theory") {
+        TheoryCLOss = [...TheoryCLOss, i];
+      }
+    });
+    setLabCLO([...LabCLOss]);
+    setTheoryCLO([...TheoryCLOss]);
+    setTotalteaching(sum);
   };
 
   return (
@@ -107,9 +109,7 @@ const getContent = async () => {
         </Button>
       </div>
 
-      
-      
-        <div ref={componentRef} className="main">
+      <div ref={componentRef} className="main">
         <div
           className="d-flex row justify-content-center mb-4"
           style={{ margin: 30 }}
@@ -136,7 +136,10 @@ const getContent = async () => {
             <div className="row">
               <div className="col">
                 <h6>
-                  <b>Course Code: {Content.Code.split("-")[0]}{Content.Code.split("-")[1]}</b>
+                  <b>
+                    Course Code: {Content.Code.split("-")[0]}
+                    {Content.Code.split("-")[1]}
+                  </b>
                 </h6>
               </div>
               <div className="col">
@@ -148,8 +151,15 @@ const getContent = async () => {
             <div className="row">
               <div className="col">
                 <h6 style={{ paddingBottom: 20 }}>
-                  <b>Credit Hour: {Content.Credit+"("+Content.LectureHoursWeek+
-                  ","+Content.LabHoursWeek+")"} </b>
+                  <b>
+                    Credit Hour:{" "}
+                    {Content.Credit +
+                      "(" +
+                      Content.LectureHoursWeek +
+                      "," +
+                      Content.LabHoursWeek +
+                      ")"}{" "}
+                  </b>
                 </h6>
               </div>
               <div className="col">
@@ -180,10 +190,7 @@ const getContent = async () => {
                 Catalogue Description
               </h4>
             </div>
-            <p style={{ paddingBottom: 20 }}>
-              {" "}
-              {Content.catalogue}
-            </p>
+            <p style={{ paddingBottom: 20 }}> {Content.catalogue}</p>
           </div>
           <div style={{ paddingBottom: 20 }}>
             <div>
@@ -194,7 +201,7 @@ const getContent = async () => {
                 Unit wise Major Topics:
               </h4>
             </div>
-            <div>
+            {/* <div>
               <table className="table table-bordered">
                 <thead
                   style={{ backgroundColor: "#f5f5f5", textAlign: "center" }}
@@ -306,6 +313,38 @@ const getContent = async () => {
                   </tr>
                 </tbody>
               </table>
+            </div> */}
+            <div>
+              <table className="table table-bordered">
+                <thead
+                  style={{ backgroundColor: "#f5f5f5", textAlign: "center" }}
+                >
+                  <tr>
+                    <th>Unit#</th>
+                    <th>Topic</th>
+                    <th>No. of teaching hours</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {CDF.Topics.map((i) => {
+                    return (
+                      <>
+                        <tr>
+                          <td style={{ textAlign: "center" }}>{i.Unit}</td>
+                          <td>{i.Topic}</td>
+                          <td style={{ textAlign: "center" }}>
+                            {i.TeachingHours}
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                  <tr>
+                    <th colSpan={2}>Total Contact Hours</th>
+                    <td style={{ textAlign: "center" }}>{Totalteaching}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div style={{ paddingBottom: 20 }}>
@@ -335,110 +374,121 @@ const getContent = async () => {
                     <th colSpan={5}>CLO’s for Theory</th>
                   </tr>
 
-                  {TheoryCLO.map(i=>{
-                    var Sos=""
-                    i.So.forEach((e)=>{
-                      console.log("Sos",Sos)
-                      if(Sos==""){
-                        Sos=e.Number
-                      }
-                      else if(Sos.length==1){
-                        Sos=Sos+","+e.Number
-                      }
-                      else if(Sos[Sos.length-2]==","){
-                        if(parseInt(Sos[Sos.length-3])-parseInt(Sos[Sos.length-1])==1
-                        && parseInt(e.Number)-parseInt(Sos[Sos.length-1])==1){
-                          Sos[Sos.length-2]="-"
-                          Sos[Sos.length-1]=e.Number
+                  {TheoryCLO.map((i) => {
+                    var Sos = "";
+                    i.So.forEach((e) => {
+                      console.log("Sos", Sos);
+                      if (Sos == "") {
+                        Sos = e.Number;
+                      } else if (Sos.length == 1) {
+                        Sos = Sos + "," + e.Number;
+                      } else if (Sos[Sos.length - 2] == ",") {
+                        if (
+                          parseInt(Sos[Sos.length - 3]) -
+                            parseInt(Sos[Sos.length - 1]) ==
+                            1 &&
+                          parseInt(e.Number) - parseInt(Sos[Sos.length - 1]) ==
+                            1
+                        ) {
+                          Sos[Sos.length - 2] = "-";
+                          Sos[Sos.length - 1] = e.Number;
+                        } else {
+                          Sos = Sos + "," + e.Number;
                         }
-                        else{
-                          Sos=Sos+","+e.Number
+                      } else if (Sos[Sos.length - 2] == "-") {
+                        if (
+                          parseInt(Sos[Sos.length - 3]) -
+                            parseInt(Sos[Sos.length - 1]) ==
+                            1 &&
+                          parseInt(e.Number) - parseInt(Sos[Sos.length - 1]) ==
+                            1
+                        ) {
+                          Sos[Sos.length - 1] = e.Number;
+                        } else {
+                          Sos = Sos + "," + e.Number;
                         }
                       }
-                      else if(Sos[Sos.length-2]=="-"){
-                        if(parseInt(Sos[Sos.length-3])-parseInt(Sos[Sos.length-1])==1
-                        && parseInt(e.Number)-parseInt(Sos[Sos.length-1])==1){
-                          Sos[Sos.length-1]=e.Number
-                        }
-                        else{
-                          Sos=Sos+","+e.Number
-                        }
-                      }
-                      
-                    })
-                    return(
-                    <tr>
-                    <td style={{}}>{i.sr}</td>
-                    <td style={{ textAlign: "center" }}>{i.Unit}</td>
-                    <td>
-                      {i.CLO}
-                    </td>
-                    <td
-                      style={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <i>{i.BTL.map((e)=>{return(<>{e.BTL}</>)})}</i>
-                    </td>
-                    <td style={{ textAlign: "center" }}>{Sos}</td>
-                    </tr>
-                      )})}
-          
-                    
+                    });
+                    return (
+                      <tr>
+                        <td style={{}}>{i.sr}</td>
+                        <td style={{ textAlign: "center" }}>{i.Unit}</td>
+                        <td>{i.CLO}</td>
+                        <td
+                          style={{
+                            textAlign: "center",
+                          }}
+                        >
+                          <i>
+                            {i.BTL.map((e) => {
+                              return <>{e.BTL}</>;
+                            })}
+                          </i>
+                        </td>
+                        <td style={{ textAlign: "center" }}>{Sos}</td>
+                      </tr>
+                    );
+                  })}
+
                   <tr className="py-2" style={{ textAlign: "center" }}>
                     <th colSpan={5}>CLO’s for Lab</th>
                   </tr>
 
-                  {LabCLO.map(i=>{
-                    var Sos=""
-                    i.So.forEach((e)=>{
-                      console.log("Sos",Sos)
-                      if(Sos==""){
-                        Sos=e.Number
-                      }
-                      else if(Sos.length==1){
-                        Sos=Sos+","+e.Number
-                      }
-                      else if(Sos[Sos.length-2]==","){
-                        if(parseInt(Sos[Sos.length-3])-parseInt(Sos[Sos.length-1])==1
-                        && parseInt(e.Number)-parseInt(Sos[Sos.length-1])==1){
-                          Sos[Sos.length-2]="-"
-                          Sos[Sos.length-1]=e.Number
+                  {LabCLO.map((i) => {
+                    var Sos = "";
+                    i.So.forEach((e) => {
+                      console.log("Sos", Sos);
+                      if (Sos == "") {
+                        Sos = e.Number;
+                      } else if (Sos.length == 1) {
+                        Sos = Sos + "," + e.Number;
+                      } else if (Sos[Sos.length - 2] == ",") {
+                        if (
+                          parseInt(Sos[Sos.length - 3]) -
+                            parseInt(Sos[Sos.length - 1]) ==
+                            1 &&
+                          parseInt(e.Number) - parseInt(Sos[Sos.length - 1]) ==
+                            1
+                        ) {
+                          Sos[Sos.length - 2] = "-";
+                          Sos[Sos.length - 1] = e.Number;
+                        } else {
+                          Sos = Sos + "," + e.Number;
                         }
-                        else{
-                          Sos=Sos+","+e.Number
+                      } else if (Sos[Sos.length - 2] == "-") {
+                        if (
+                          parseInt(Sos[Sos.length - 3]) -
+                            parseInt(Sos[Sos.length - 1]) ==
+                            1 &&
+                          parseInt(e.Number) - parseInt(Sos[Sos.length - 1]) ==
+                            1
+                        ) {
+                          Sos[Sos.length - 1] = e.Number;
+                        } else {
+                          Sos = Sos + "," + e.Number;
                         }
                       }
-                      else if(Sos[Sos.length-2]=="-"){
-                        if(parseInt(Sos[Sos.length-3])-parseInt(Sos[Sos.length-1])==1
-                        && parseInt(e.Number)-parseInt(Sos[Sos.length-1])==1){
-                          Sos[Sos.length-1]=e.Number
-                        }
-                        else{
-                          Sos=Sos+","+e.Number
-                        }
-                      }
-                      
-                    })
-                    return(
-                  
-                  <tr>
-                    <td style={{}}>{i.sr}</td>
-                    <td style={{ textAlign: "center" }}>{i.Unit}</td>
-                    <td>{i.CLO}
-                    </td>
-                    <td
-                      style={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <i>{i.BTL.map((e)=>{return(<>{e.BTL}</>)})}</i>
-                    </td>
-                    <td style={{ textAlign: "center" }}>{Sos}</td>
-                  </tr>
-              )})}
-                  
-
+                    });
+                    return (
+                      <tr>
+                        <td style={{}}>{i.sr}</td>
+                        <td style={{ textAlign: "center" }}>{i.Unit}</td>
+                        <td>{i.CLO}</td>
+                        <td
+                          style={{
+                            textAlign: "center",
+                          }}
+                        >
+                          <i>
+                            {i.BTL.map((e) => {
+                              return <>{e.BTL}</>;
+                            })}
+                          </i>
+                        </td>
+                        <td style={{ textAlign: "center" }}>{Sos}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -456,44 +506,42 @@ const getContent = async () => {
               <table className="table table-bordered">
                 <thead
                   style={{ backgroundColor: "#f5f5f5", textAlign: "center" }}
-                >                    
+                >
                   <th className="col-1">Assessment Tools</th>
-                  {CDF.CLOs.map((i)=>{
-                  return(
-                    <th className="col-1">{i.sr}</th>
-                  )})}
+                  {CDF.CLOs.map((i) => {
+                    return <th className="col-1">{i.sr}</th>;
+                  })}
                 </thead>
                 <tbody style={{ textAlign: "center" }}>
                   <tr>
                     <td>Quizzes</td>
-                    {CDF.CLOs.map((i)=>{
-                    return(
-                      <th>{i.Quizzes.map(e=>e.title)}</th>)})}
+                    {CDF.CLOs.map((i) => {
+                      return <th>{i.Quizzes.map((e) => e.title)}</th>;
+                    })}
                   </tr>
                   <tr>
                     <td>Assignments</td>
-                    {CDF.CLOs.map((i)=>{
-                    return(
-                      <th>{i.Assignment.map(e=>e.title)}</th>)})}
+                    {CDF.CLOs.map((i) => {
+                      return <th>{i.Assignment.map((e) => e.title)}</th>;
+                    })}
                   </tr>
                   <tr>
-                  <td>Mid Term Exam</td>
-                  {CDF.CLOs.map((i)=>{
-                    return(
-                      <th>{i.Mid}</th>)})}
+                    <td>Mid Term Exam</td>
+                    {CDF.CLOs.map((i) => {
+                      return <th>{i.Mid}</th>;
+                    })}
                   </tr>
                   <tr>
                     <td>Final Term Exam</td>
-                    {CDF.CLOs.map((i)=>{
-                    return(
-                      <th>{i.Final}</th>)})}
+                    {CDF.CLOs.map((i) => {
+                      return <th>{i.Final}</th>;
+                    })}
                   </tr>
                   <tr>
                     <td>Project</td>
-                    {CDF.CLOs.map((i)=>{
-                    return(
-                      <th>{i.Project}</th>)})}
-
+                    {CDF.CLOs.map((i) => {
+                      return <th>{i.Project}</th>;
+                    })}
                   </tr>
                 </tbody>
               </table>
@@ -511,19 +559,29 @@ const getContent = async () => {
             <div>
               <h4>TextBook:</h4>
               <ol>
-                {CDF.textBook.map((i)=>{
-                  return(<li>{i.BookName}, {i.BookWriter}, {i.BookYear}</li>)})}
+                {CDF.textBook.map((i) => {
+                  return (
+                    <li>
+                      {i.BookName}, {i.BookWriter}, {i.BookYear}
+                    </li>
+                  );
+                })}
               </ol>
 
               <h4>Reference Books:</h4>
               <ol>
-              {CDF.referenceBook.map((i)=>{
-                  return(<li>{i.BookName}, {i.BookWriter}, {i.BookYear}</li>)})}
+                {CDF.referenceBook.map((i) => {
+                  return (
+                    <li>
+                      {i.BookName}, {i.BookWriter}, {i.BookYear}
+                    </li>
+                  );
+                })}
               </ol>
             </div>
           </div>
         </div>
       </div>
-  </div>  
+    </div>
   );
 }

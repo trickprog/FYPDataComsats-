@@ -693,7 +693,7 @@ export default function AddNewCourseDocument() {
                 multiline={true}
                 rows={2}
                 id="outlined-basic"
-                label="SO Description"
+                label="Catalogue Description"
                 variant="outlined"
                 size="small"
                 fullWidth

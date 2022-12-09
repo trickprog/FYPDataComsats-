@@ -259,53 +259,46 @@ export default function AddProgram() {
             <b>DEGREE PROGRAM</b>
           </h1>
           <div className="d-flex justify-content-end mb-4">
-            <div className="row">
-              <div className="col">
-                <Box sx={{ minWidth: 220 }}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="taskType">Filter by Degree</InputLabel>
-                    <Select
-                      value={report}
-                      label="Filter by Degree"
-                      onChange={(e) => setreport(e.target.value)}
-                    >
-                      {pres.map((i) => {
-                        return <MenuItem value={i}>{i}</MenuItem>;
-                      })}
-                    </Select>
-                  </FormControl>
-                </Box>
-              </div>
-              <div className="col">
-                <Button
-                  style={{ backgroundColor: "#4b2980" }}
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  onClick={() => {
-                    if (report == "") alert("select an option");
-                    else navigate(`/Admin/AddProgram/report/${report}`);
-                  }}
+            <Box sx={{ minWidth: 220 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel id="taskType">Filter by Degree</InputLabel>
+                <Select
+                  value={report}
+                  label="Filter by Degree"
+                  onChange={(e) => setreport(e.target.value)}
                 >
-                  <AiFillFilePdf style={{ marginRight: 10 }} />
-                  Generate Report
-                </Button>
-              </div>
-              <div className="col">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  style={{ backgroundColor: "#4b2980" }}
-                  onClick={handleOpen}
-                >
-                  <AddIcon style={{ marginRight: 10 }} />
-                  Add New Program
-                </Button>
-              </div>
-            </div>
+                  {pres.map((i) => {
+                    return <MenuItem value={i}>{i}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
+            </Box>
+            <Button
+              style={{ backgroundColor: "#4b2980" }}
+              variant="contained"
+              color="primary"
+              className="ms-4"
+              size="medium"
+              onClick={() => {
+                if (report == "") alert("select an option");
+                else navigate(`/Admin/AddProgram/report/${report}`);
+              }}
+            >
+              <AiFillFilePdf style={{ marginRight: 10 }} />
+              Generate Report
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              className="ms-4"
+              style={{ backgroundColor: "#4b2980" }}
+              onClick={handleOpen}
+            >
+              <AddIcon style={{ marginRight: 10 }} />
+              Add New Program
+            </Button>
           </div>
-
           <Modal
             open={open}
             onClose={handleClose}
