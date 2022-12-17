@@ -22,7 +22,7 @@ module.exports.showUsers = async (req, res) => {
     if (!req.user) return await res.status(401).json("Timed Out");
     const user = await Userdoc.findById(req.user._id).populate('CourseCreation');
     var rm
-    const newCourseCreation =  user.CourseCreation.filter((x)=>{
+    const newCSDF =  user.CourseCreation.filter((x)=>{
       if(x.Code!=req.params.Code){
          return x._id
         }
@@ -39,12 +39,12 @@ module.exports.showUsers = async (req, res) => {
     
     const Version = await Versionodoc.find({Code:req.params.Code},{_id:0})
     if(Version.length<1){return await res.status(404).json("No Versions")}
-    const obj = Version[Version.length - 1]
+    const obj = await Version[Version.length - 1]
     console.log("\n\n\n\n\n\n\n\n obj",obj)
     
     task.Status = "Returned"
     console.log("\n\n\n\n\n\n\n\n",task,"\n\n\n\n\n\n\n\n")
-    const newtask  = await Task.findByIdAndUpdate(task._id,task)
+    const newtask = await Task.findByIdAndUpdate(task._id,task)
     console.log("\n\n\n\n\n\n\n\n",newtask,"\n\n\n\n\n\n\n\n")
         
     await Promise.all(task.User.map(async(i)=>{
