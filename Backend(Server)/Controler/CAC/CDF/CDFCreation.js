@@ -61,9 +61,7 @@ module.exports.showUsers = async (req, res) => {
     const resss=await Userdoc.find({})
     console.log("ds",resss)
     
-        Mail.TaskReturned(task,user.Email)
-      
-    
+        
     // user.CourseCDF = newCourseCDF
     // console.log("\n\n\n\n\n\n\n\n newCourseCDF",newCourseCDF)
     // const newuser =  await Userdoc.findByIdAndUpdate(user._id,user)
@@ -77,6 +75,9 @@ module.exports.showUsers = async (req, res) => {
     textBook: obj.textBook,
     referenceBook: obj.referenceBook,
   })
+    Mail.TaskReturned(task,user.Email)
+      
+    
     console.log("returned \n\n\n\n\n",retrn)
   
     await res.status(200).json("submitted")

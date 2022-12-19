@@ -67,38 +67,50 @@ module.exports.Lock = async (req, res) => {
       }
         else if(task.taskType=="Update Catalog Description"){
           finalcourse = await coursedoc.findOneAndUpdate({Code:obj.Code},{
-           Code: obj.Code,
-           Name: obj.Name,
-           Credit: obj.Credit,
-           LectureHoursWeek: obj.LectureHoursWeek ,
-           LabHoursWeek:obj.LabHoursWeek,
-           Category:obj.Category,
-           PreRequisites:obj.PreRequisites,
-           catalogue: obj.catalogue,
-           objectiveList:obj.objectiveList ,
-           Books:obj.Books
+            Code: obj.Code,
+            Name: obj.Name,
+            Credit: obj.Credit,
+            LectureHoursWeek: obj.LectureHoursWeek ,
+            LabHoursWeek:obj.LabHoursWeek,
+            Category:obj.Category,
+            PreRequisites:obj.PreRequisites,
+            catalogue: obj.catalogue,
+            objectiveList:obj.objectiveList ,
+            Books:obj.Books
          });
-        }
-        console.log("finalcourse",finalcourse)
-        task.Status = "Finished"
-        await ProgramCourses.findOneAndUpdate({Code:finalcourse.Code},{          
-          Code: finalcourse.Code,
-          Name: finalcourse.Name,
-          Credit: finalcourse.Credit,
-          LectureHoursWeek: finalcourse.LectureHoursWeek ,
-          LabHoursWeek:finalcourse.LabHoursWeek,
-          PreRequisites:finalcourse.PreRequisites,
-          catalogue:finalcourse.catalogue,
-          objectiveList:finalcourse.objectiveList,
-          Books:finalcourse.Books
-          })
+         
+         const SOS = await SOSdoc.find({})
         
-        await ReturnCourse.deleteOne({Code:task.Course.Code})                   
-        await Task.findByIdAndUpdate(task._id,task)
-        await VersionCourse.deleteMany({Code:task.Course.Code})
-        console.log(finalcourse)
-        await res.status(200).json(finalcourse);
+          await Promise.all(SOS.map(async(i)=>{
+          const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
+          if(pcors){
+            const CDF = await ProgramCourses.findOneAndUpdate({Code: obj.Code,Program:i.Program},{
+              Code: obj.Code,
+              Name: obj.Name,
+              Credit: obj.Credit,
+              LectureHoursWeek: obj.LectureHoursWeek ,
+              LabHoursWeek:obj.LabHoursWeek,
+              Category:obj.Category,
+              PreRequisites:obj.PreRequisites,
+              catalogue: obj.catalogue,
+              objectiveList:obj.objectiveList ,
+              Books:obj.Books
+            })
+              console.log("finalCDF",CDF)}
+              }
+            ))     
       }
+        const a = await ReturnCourse.deleteOne({Code:task.Course.Code})                   
+        console.log(a)       
+        const b = await Task.findByIdAndUpdate(task._id,task)
+        console.log(b)
+        const c = await VersionCourse.deleteMany({Code:task.Course.Code})
+        console.log(c)
+        await res.status(200).json("lOCKED");
+        
+    }
+        
+      
       else if(task.taskType=="Create SOS"||task.taskType=="Update SOS"){
         console.log("Task",task)
         const obj = await ReturnedSOS.findOne({Program:task.Program}).populate({path:"Categories"
@@ -215,8 +227,8 @@ module.exports.Lock = async (req, res) => {
         await Task.findByIdAndUpdate(task._id,task)
         await VersionSOS.deleteMany({Program:task.Program})
         await SOSCourse.deleteMany({Program:task.Program})
-        console.log(finalSOS)
-        await res.status(200).json(finalSOS);
+        
+        await res.status(200).json("finalSOS");
       }
       
       else if(task.taskType=="Create CDF"||task.taskType=="Update CDF"){
@@ -232,6 +244,8 @@ module.exports.Lock = async (req, res) => {
             referenceBook:obj.referenceBook
             })
           await Promise.all(SOS.map(async(i)=>{
+            const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
+            if(pcors){
             const CDF = await CDFdoc.create({
               Program:i.Program,
               Code: obj.Code,
@@ -240,7 +254,7 @@ module.exports.Lock = async (req, res) => {
               textBook: obj.textBook ,
               referenceBook:obj.referenceBook
               })
-              console.log("finalCDF",CDF)
+              console.log("finalCDF",CDF)}
               }
             ))
           }
@@ -253,6 +267,8 @@ module.exports.Lock = async (req, res) => {
             referenceBook:obj.referenceBook
             })
             await Promise.all(SOS.map(async(i)=>{
+            const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
+            if(pcors){
               const CDF = await CDFdoc.findOneAndUpdate({Code: obj.Code,Program:i.Program},{
                 Program:i.Program,
                 Code: obj.Code,
@@ -261,7 +277,7 @@ module.exports.Lock = async (req, res) => {
                 textBook: obj.textBook ,
                 referenceBook:obj.referenceBook
                 })
-                console.log("finalCDF",CDF)
+                console.log("finalCDF",CDF)}
                 }
               ))
         
@@ -270,8 +286,7 @@ module.exports.Lock = async (req, res) => {
         await ReturnedCDF.deleteOne({Code:task.Course.Code})        
         await Task.findByIdAndUpdate(task._id,task)
         await VaersionCDF.deleteMany({Code:task.Course.Code})
-        console.log(genCDF)
-        res.status(200).json(genCDF);
+        res.status(200).json("genCDF");
       }
 
       else if(task.taskType=="Create Syllabus"||task.taskType=="Update Syllabus"){
@@ -323,16 +338,13 @@ module.exports.Lock = async (req, res) => {
         
         await ReturnedSyllabus.deleteOne({Code:task.Course.Code})        
         const newtask  = await Task.findByIdAndUpdate(task._id,task)
-        await VaersionSyllabus.deleteMany({Code:task.Course.Code})
-        console.log(genSyllabus)
-        await res.status(200).json(genSyllabus);
+        await VaersionSyllabus.deleteMany({Code:task.Course.Code})        
+        await res.status(200).json("genSyllabus");
       }
-
-     
-      
     } catch (err) {
-        res.status(400).json("error");
-        console.log(err);
+      console.log("\n\nerror msg",err,"\n\nerror msg");  
+      res.status(400).json("error");
+        
     }
   };
 
