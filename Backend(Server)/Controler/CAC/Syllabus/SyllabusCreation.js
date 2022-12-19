@@ -37,7 +37,7 @@ module.exports.showUsers = async (req, res) => {
 
     const Version = await Versionodoc.find({Code:req.params.Code},{_id:0})
     if(Version.length<1)return await res.status(404).json("No Versions")
-    const obj = Version[Version.length - 1]
+    const obj = await Version[Version.length - 1]
     console.log("\n\n\n\n\n\n\n\n obj",obj)
 
 

@@ -60,7 +60,7 @@ export default function CourseFolderTheory() {
   };
   const onsubmit1 = async (e) => {
     e.preventDefault();
-    navigate("/Admin/Dashboard");
+    // navigate("/Admin/Dashboard");
     onsubmit3();
 
     if (!isNaN(Quiz1) && !isNaN(Assignments1)) {
@@ -80,7 +80,7 @@ export default function CourseFolderTheory() {
   };
   const onsubmit2 = async (e) => {
     e.preventDefault();
-    navigate("/Admin/Dashboard");
+    // navigate("/Admin/Dashboard");
     onsubmit3();
     if (!isNaN(Quiz2) && !isNaN(Assignments2)) {
       const res = await axios.post("http://localhost:4000/Content/Theory", {

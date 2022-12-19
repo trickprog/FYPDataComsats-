@@ -42,7 +42,7 @@ module.exports.showUsers = async (req, res) => {
     const Version = await Versionodoc.find({Code:req.params.Code},{_id:0})
     if(Version.length<1){return await res.status(404).json("No Versions")}
     console.log("\n Version",Version)
-    const obj = Version[Version.length - 1]
+    const obj = await Version[Version.length - 1]
     
     console.log("\n obj",obj)
     
@@ -61,9 +61,7 @@ module.exports.showUsers = async (req, res) => {
     const resss=await Userdoc.find({})
     console.log("ds",resss)
     
-        Mail.TaskReturned(task,user.Email)
-      
-    
+        
     // user.CourseCDF = newCourseCDF
     // console.log("\n\n\n\n\n\n\n\n newCourseCDF",newCourseCDF)
     // const newuser =  await Userdoc.findByIdAndUpdate(user._id,user)
@@ -77,6 +75,9 @@ module.exports.showUsers = async (req, res) => {
     textBook: obj.textBook,
     referenceBook: obj.referenceBook,
   })
+    Mail.TaskReturned(task,user.Email)
+      
+    
     console.log("returned \n\n\n\n\n",retrn)
   
     await res.status(200).json("submitted")

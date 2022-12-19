@@ -138,6 +138,7 @@ module.exports.Add = async (req, res) => {
         var ind = arrays.findIndex(j=>j._id.equals(i._id))
         arrays[ind].CourseSyllabus.push(e.Course._id)              
         })
+
       if(e.taskType=="Update Syllabus"){
           const Syllabus = await Syllabusgendoc.findOne({Code:e.Course.Code})
           await VersionSyllabusdoc.create({

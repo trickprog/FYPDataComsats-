@@ -16,6 +16,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { muibtn } from "../style";
 import { date } from "yup";
+import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute",
@@ -388,6 +389,13 @@ export default function CacAvailability() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+              <Box mb={1} style={{ display: "flex", justifyContent: "end" }}>
+                <CloseIcon
+                  onClick={handleClose}
+                  style={{ cursor: "pointer", color: "gray" }}
+                />
+              </Box>
+              <h4 className="mb-4">SELECT YOUR BUSY SLOTS</h4>
               <>
                 <div className="form-group py-2">
                   <FormControl fullWidth size="small">
@@ -543,7 +551,7 @@ export default function CacAvailability() {
                   variant="contained"
                   color="primary"
                   size="small"
-                  style={{ marginTop: 16 }}
+                  style={muibtn}
                   onClick={handleSubmit}
                 >
                   <AiOutlineClockCircle style={{ marginRight: 10 }} />

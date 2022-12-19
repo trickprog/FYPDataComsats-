@@ -22,7 +22,7 @@ module.exports.showUsers = async (req, res) => {
     if (!req.user) return await res.status(401).json("Timed Out");
     const user = await Userdoc.findById(req.user._id).populate('CourseCreation');
     var rm
-    const newCourseCreation =  user.CourseCreation.filter((x)=>{
+    const newCSDF =  user.CourseCreation.filter((x)=>{
       if(x.Code!=req.params.Code){
          return x._id
         }
@@ -30,21 +30,29 @@ module.exports.showUsers = async (req, res) => {
         rm=x._id
       }
     })
-    var arr2 = ["Create Catalog Description","Update Catalog Description"]
-    const task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Course:rm}).populate("User")
+    // var arr2 = ["Create Catalog Description","Update Catalog Description"]
+    var task
+    var task1  = await Task.findOne({taskType:"Create Catalog Description",User:req.user._id,Course:rm}).populate("User")
     .populate({path:"User",Model:"User", populate:{path:"CourseCreation",model:"Repo"}})
+    if(!task1){
+      task = await Task.findOne({taskType:"Update Catalog Description",User:req.user._id,Course:rm}).populate("User")
+    .populate({path:"User",Model:"User", populate:{path:"CourseCreation",model:"Repo"}})
+    }
+    else {
+      task=task1
+    }
     const date=new Date(Date.now())
     const date2=new Date(task.Deadline)
     if(date2<date){return await res.status(401).json("Deadline Passed")}
     
     const Version = await Versionodoc.find({Code:req.params.Code},{_id:0})
     if(Version.length<1){return await res.status(404).json("No Versions")}
-    const obj = Version[Version.length - 1]
+    const obj =  Version[Version.length - 1]
     console.log("\n\n\n\n\n\n\n\n obj",obj)
     
     task.Status = "Returned"
     console.log("\n\n\n\n\n\n\n\n",task,"\n\n\n\n\n\n\n\n")
-    const newtask  = await Task.findByIdAndUpdate(task._id,task)
+    const newtask = await Task.findByIdAndUpdate(task._id,task)
     console.log("\n\n\n\n\n\n\n\n",newtask,"\n\n\n\n\n\n\n\n")
         
     await Promise.all(task.User.map(async(i)=>{
@@ -60,10 +68,7 @@ module.exports.showUsers = async (req, res) => {
     // const newuser =  await Userdoc.findByIdAndUpdate(user._id,user)
     // console.log("\n\n\n\n\n\n\n\n newUser",newuser)
     const resss=await Userdoc.find({})
-    console.log("ds",resss)
-   
-        Mail.TaskReturned(task,user.Email)
-     
+    console.log("ds",resss)     
     //error is here
     const retrn = await ReturnCourse.create( {Code: obj.Code,
     Name: obj.Name,
@@ -75,10 +80,11 @@ module.exports.showUsers = async (req, res) => {
     Books:obj.Books
   })
     console.log("returned \n\n\n\n\n",retrn)
-  
+    Mail.TaskReturned(task,user.Email)
+
     await res.status(200).json("submitted")
     } catch (err) {
-      console.log(err);
+      console.log("\n\nerr in submit",err);
       await res.status(400).json("error")
     }
   };
