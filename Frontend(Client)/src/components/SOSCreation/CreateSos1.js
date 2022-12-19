@@ -265,7 +265,12 @@ export default function CreateSOS1() {
                     </FormControl>
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    <CloseIcon sx={{ color: "red" }} />
+                      <CloseIcon sx={{ color: "red" }} onClick={()=>{
+                        var clone = [...CoveredCategories]
+                        clone.splice(index,1)
+                        setCoveredCategories([...clone])
+                      }} />
+                    
                   </td>
                 </tr>
               );
@@ -315,6 +320,13 @@ export default function CreateSOS1() {
                         fullWidth                        
                       >{c.NoofCredits}</p>
                     </FormControl>
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                      <CloseIcon sx={{ color: "red" }} onClick={()=>{
+                        var clone = [...DomainCategories]
+                        clone.splice(index,1)
+                        setDomainCategories([...clone])
+                      }} />                    
                   </td>
                 </tr>
               );

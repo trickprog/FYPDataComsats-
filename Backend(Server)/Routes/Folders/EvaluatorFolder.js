@@ -12,6 +12,7 @@ router.route("/showforReportser").get(FoldersShow.ShowEvaluatorsforReport);
 router.route("/showAllbyid/:id").get(FoldersShow.ShowId);
 router.route("/showComp/:id").get(FoldersShow.ShowComp);
 router.route("/showfolder").get(FoldersShow.ShowFolder);
+
 router.route("/finishAll").post(EvalFolder.FinishAll);
 router.route("/finish/:id").post(EvalFolder.FinishOne);
 

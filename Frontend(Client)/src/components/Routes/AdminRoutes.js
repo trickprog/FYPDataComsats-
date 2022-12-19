@@ -74,10 +74,7 @@ function AdminRoutes() {
         <Route path="/CourseView/:id" element={<CourseFinal />} />
         <Route path="/AllCourses" element={<AllCourses />} />
         <Route path="/CourseFolderReport" element={<CourseFolderReport />} />
-        <Route
-          path="/CourseFolderCombinedReport"
-          element={<CourseFolderCombinedReport />}
-        />
+        <Route path="/CourseFolderCombinedReport" element={<CourseFolderCombinedReport />}/>
 
         <Route path="/ReturnedEvaluation" element={<ReturnedPage />} />
 

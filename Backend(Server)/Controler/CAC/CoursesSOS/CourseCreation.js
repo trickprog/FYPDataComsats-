@@ -30,16 +30,12 @@ module.exports.showUsers = async (req, res) => {
         rm=x._id
       }
     })
-    // var arr2 = ["Create Catalog Description","Update Catalog Description"]
-    var task
-    var task1  = await Task.findOne({taskType:"Create Catalog Description",User:req.user._id,Course:rm}).populate("User")
+    var arr2 = ["Create Catalog Description","Update Catalog Description"]
+    var task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Course:rm}).populate("User")
     .populate({path:"User",Model:"User", populate:{path:"CourseCreation",model:"Repo"}})
-    if(!task1){
+    if(!task){
       task = await Task.findOne({taskType:"Update Catalog Description",User:req.user._id,Course:rm}).populate("User")
     .populate({path:"User",Model:"User", populate:{path:"CourseCreation",model:"Repo"}})
-    }
-    else {
-      task=task1
     }
     const date=new Date(Date.now())
     const date2=new Date(task.Deadline)

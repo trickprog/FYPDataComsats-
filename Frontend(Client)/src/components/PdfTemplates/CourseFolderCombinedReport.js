@@ -9,7 +9,6 @@ import { useReactToPrint } from "react-to-print";
 export default function CourseFolderCombinedReport() {
   const componentRef = useRef();
   const [folders, setfolders] = useState([]);
-  const { row } = useLocation().state;
   const [tdeadline1, settdeadline1] = useState();
   const [tdeadline2, settdeadline2] = useState();
   const [tdeadline11, settdeadline11] = useState();
@@ -19,7 +18,6 @@ export default function CourseFolderCombinedReport() {
   const [ldeadline2, setldeadline2] = useState();
   const [ldeadline11, setldeadline11] = useState();
   const [ldeadline22, setldeadline22] = useState();
-  console.log("rew", row);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
@@ -101,25 +99,22 @@ export default function CourseFolderCombinedReport() {
         s1.getSeconds()
     );
   };
+  console.log("Foldertasss", folders);
   useEffect(() => {
     getDeadline();
   }, []);
-  const SendReminder = async () => {
-    await axios.post(`http://localhost:4000/Program/Reminder`, {
-      email: row.Email,
-    });
-  };
+  // const SendReminder = async () => {
+  //   await axios.post(`http://localhost:4000/Program/Reminder`, {
+  //     email: row.Email,
+  //   });
+  // };
   const getCourses = () => {
     axios
       .get(`http://localhost:4000/EvalFolders/showfolder`)
       .then((res) => {
-        if (res.data != null) {
           console.log("Folderta", res.data);
-
-          const arr = res.data.filter((item) => item.User._id == row._id);
-          console.log("finalarray", arr);
-          setfolders(arr);
-        }
+          setfolders(res.data);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -154,7 +149,7 @@ export default function CourseFolderCombinedReport() {
           </div>
         </div>
         {folders.length > 0 ? (
-          folders?.map((item) => (
+          folders?.map((index,item) => (
             <>
               <br></br>
               <hr style={{ width: "100%", borderWidth: 2 }}></hr>
@@ -164,26 +159,26 @@ export default function CourseFolderCombinedReport() {
                 <h4
                   style={{ backgroundColor: "#000", color: "#fff", padding: 5 }}
                 >
-                  <b>Teacher: </b>
-                  {row.Name}
+                  <b>{index+1+")"} Teacher: </b>
+                  {item?.User?.Name}
                 </h4>
                 <h4>
                   <b>Program: </b>
-                  {item.Course.Program}
+                  {item?.Course?.Program}
                 </h4>
                 <h4>
                   <b>Course: </b>
-                  {item.Course.Name +
+                  {item?.Course?.Name +
                     " - " +
-                    item.Course.Code +
+                    item?.Course?.Code +
                     " (" +
-                    item.LabTheory +
+                    item?.LabTheory +
                     ")"}
                 </h4>
               </div>
               <div className="my-4 p-4" style={{ backgroundColor: "#f5f5f5" }}>
                 <h4>Deadlines</h4>
-                {item.LabTheory == "Theory" ? (
+                {item?.LabTheory == "Theory" ? (
                   <>
                     <h5>
                       <b>Round 1: {tdeadline1}</b>
@@ -209,7 +204,7 @@ export default function CourseFolderCombinedReport() {
                   <thead>
                     <tr>
                       <th>Lecture Delivery Record</th>
-                      {item.LectureDeliveryRecord == null ? (
+                      {item?.LectureDeliveryRecord == null ? (
                         <td>Not Submitted</td>
                       ) : (
                         <td>Submitted</td>
@@ -218,7 +213,7 @@ export default function CourseFolderCombinedReport() {
                   </thead>
                 </table>
               </div>
-              {item.LabTheory == "Theory" ? (
+              {item?.LabTheory == "Theory" ? (
                 <div>
                   <h1 className="my-4">Quizzes</h1>
                   <table className="table table-bordered">
@@ -233,22 +228,22 @@ export default function CourseFolderCombinedReport() {
                     </thead>
                     <tbody>
                       <td></td>
-                      {item.files.find((item) => item.Title == "Quiz 1") ? (
+                      {item?.files?.find((item) => item?.Title == "Quiz 1") ? (
                         <td>Submitted</td>
                       ) : (
                         <td>Not Submitted</td>
                       )}
-                      {item.files.find((item) => item.Title == "Quiz 2") ? (
+                      {item?.files?.find((item) => item?.Title == "Quiz 2") ? (
                         <td>Submitted</td>
                       ) : (
                         <td>Not Submitted</td>
                       )}
-                      {item.files.find((item) => item.Title == "Quiz 3") ? (
+                      {item?.files?.find((item) => item?.Title == "Quiz 3") ? (
                         <td>Submitted</td>
                       ) : (
                         <td>Not Submitted</td>
                       )}
-                      {item.files.find((item) => item.Title == "Quiz 4") ? (
+                      {item?.files?.find((item) => item?.Title == "Quiz 4") ? (
                         <td>Submitted</td>
                       ) : (
                         <td>Not Submitted</td>
@@ -275,22 +270,22 @@ export default function CourseFolderCombinedReport() {
                   </thead>
                   <tbody>
                     <td></td>
-                    {item.files.find((item) => item.Title == "Assignment 1") ? (
+                    {item?.files?.find((item) => item?.Title == "Assignment 1") ? (
                       <td>Submitted</td>
                     ) : (
                       <td>Not Submitted</td>
                     )}
-                    {item.files.find((item) => item.Title == "Assignment 2") ? (
+                    {item?.files?.find((item) => item?.Title == "Assignment 2") ? (
                       <td>Submitted</td>
                     ) : (
                       <td>Not Submitted</td>
                     )}
-                    {item.files.find((item) => item.Title == "Assignment 3") ? (
+                    {item?.files?.find((item) => item?.Title == "Assignment 3") ? (
                       <td>Submitted</td>
                     ) : (
                       <td>Not Submitted</td>
                     )}
-                    {item.files.find((item) => item.Title == "Assignment 4") ? (
+                    {item?.files?.find((item) => item?.Title == "Assignment 4") ? (
                       <td>Submitted</td>
                     ) : (
                       <td>Not Submitted</td>
@@ -306,7 +301,7 @@ export default function CourseFolderCombinedReport() {
                   <thead>
                     <tr>
                       <th>Mid Term</th>
-                      {item.files.find((item) => item.Title == "Mid") ? (
+                      {item?.files?.find((item) => item?.Title == "Mid") ? (
                         <td>Submitted</td>
                       ) : (
                         <td>Not Submitted</td>
@@ -322,7 +317,7 @@ export default function CourseFolderCombinedReport() {
                   <thead>
                     <tr>
                       <th>Terminal</th>
-                      {item.files.find((item) => item.Title == "Terminal") ? (
+                      {item?.files?.find((item) => item?.Title == "Terminal") ? (
                         <td>Submitted</td>
                       ) : (
                         <td>Not Submitted</td>
@@ -338,7 +333,7 @@ export default function CourseFolderCombinedReport() {
                   <thead>
                     <tr>
                       <th>ICEF</th>
-                      {item.ICEF == null ? (
+                      {item?.ICEF == null ? (
                         <td>Not Submitted</td>
                       ) : (
                         <td>Submitted</td>

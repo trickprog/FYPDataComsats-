@@ -145,49 +145,49 @@ module.exports.ShowOneProgramYear = async (req, res) => {
           populate: { path: "PreRequisites", model: "Repo" },
         },
       });
-    var cats = await Promise.all(
-      backSOS.Categories.map(async (x) => {
-        console.log("lats");
-        var Cs = await Promise.all(
-          x.Courses.map(async (i) => {
-            console.log("latsasd");
-            var abc = await coursedoc.findOne({ Code: i.Code });
-            if (
-              abc &&
-              (i.catalogue != abc.catalogue ||
-                i.objectiveList != abc.objectiveList ||
-                i.Books != abc.Books)
-            ) {
-              var objs = {
-                _id: i._id,
-                Program: i.Program,
-                Code: i.Code,
-                Name: i.Name,
-                Credit: i.Credit,
-                LectureHoursWeek: i.LectureHoursWeek,
-                LabHoursWeek: i.LabHoursWeek,
-                PreRequisites: i.PreRequisites,
-                catalogue: abc.catalogue,
-                objectiveList: abc.objectiveList,
-                Books: abc.Books,
-              };
-              var aa = await SOSCoursedoc.findByIdAndUpdate(
-                i._id,
-                objs
-              ).populate("PreRequisites");
-              return aa;
-            } else {
-              return i;
-            }
-          })
-        );
-        x.Courses = Cs;
-        console.log("x.Courses", x.Courses);
-        return x;
-      })
-    );
-    console.log("cats", cats);
-    backSOS.Categories = cats;
+    // var cats = await Promise.all(
+    //   backSOS.Categories.map(async (x) => {
+    //     console.log("lats");
+    //     var Cs = await Promise.all(
+    //       x.Courses.map(async (i) => {
+    //         console.log("latsasd");
+    //         var abc = await coursedoc.findOne({ Code: i.Code });
+    //         if (
+    //           abc &&
+    //           (i.catalogue != abc.catalogue ||
+    //             i.objectiveList != abc.objectiveList ||
+    //             i.Books != abc.Books)
+    //         ) {
+    //           var objs = {
+    //             _id: i._id,
+    //             Program: i.Program,
+    //             Code: i.Code,
+    //             Name: i.Name,
+    //             Credit: i.Credit,
+    //             LectureHoursWeek: i.LectureHoursWeek,
+    //             LabHoursWeek: i.LabHoursWeek,
+    //             PreRequisites: i.PreRequisites,
+    //             catalogue: abc.catalogue,
+    //             objectiveList: abc.objectiveList,
+    //             Books: abc.Books,
+    //           };
+    //           var aa = await SOSCoursedoc.findByIdAndUpdate(
+    //             i._id,
+    //             objs
+    //           ).populate("PreRequisites");
+    //           return aa;
+    //         } else {
+    //           return i;
+    //         }
+    //       })
+    //     );
+    //     x.Courses = Cs;
+    //     console.log("x.Courses", x.Courses);
+    //     return x;
+    //   })
+    // );
+    // console.log("cats", cats);
+    // backSOS.Categories = cats;
     console.log(backSOS);
     res.json(backSOS);
   } catch (err) {

@@ -146,8 +146,10 @@ export default function AddProgram() {
   };
 
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [rowid, setrowid] = React.useState("");
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (row) => {
+    setrowid(row)
     setOpenDialog(true);
   };
 
@@ -210,7 +212,10 @@ export default function AddProgram() {
           color="primary"
           size="small"
           style={muiAbtn}
-          onClick={handleClickOpen}
+          onClick={()=>{
+            setrowid(row._id)
+            setOpenDialog(true);}
+          }
         >
           <AiFillDelete style={{ marginRight: 10 }} />
           Delete
@@ -229,7 +234,7 @@ export default function AddProgram() {
           <DialogActions>
             <Button
               onClick={async () => {
-                await axios.delete(`http://localhost:4000/Program/${row._id}`);
+                await axios.delete(`http://localhost:4000/Program/${rowid}`);
                 getRows();
                 handleCloseDialog();
               }}

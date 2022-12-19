@@ -21,11 +21,9 @@ module.exports.showUsers = async (req, res) => {
     try {
     if (!req.user) return await res.status(401).json("Timed Out");
     const user = await Userdoc.findById(req.user._id)
-    // var arr2 = ["Create SOS","Update SOS"]
-    var task  = await Task.findOne({taskType:"Create SOS",User:req.user._id,Program:req.params.Program,Course:null}).populate("User")
-    if(!task){
-       task  = await Task.findOne({taskType:"Update SOS",User:req.user._id,Program:req.params.Program,Course:null}).populate("User")
-    }
+    var arr2 = ["Create SOS","Update SOS"]
+    const task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Program:req.params.Program,Course:null}).populate("User")
+    
     const date=new Date(Date.now())
     const date2=new Date(task.Deadline)
     if(date2<date){return await res.status(401).json("Deadline Passed")}

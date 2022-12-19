@@ -80,7 +80,7 @@ export default function SOSFinal() {
           <div>
             <div>
               <h4>
-                Nomenclature: {Content.Program}
+                Nomenclature: {Content?.Program}
               </h4>
               <ol>
                 <li>Minimum Duration in year: 04 Years</li>
@@ -102,13 +102,13 @@ export default function SOSFinal() {
                 </thead>
                 <tbody>
                   <tr>
-                    <th colSpan={2}>Area Covered in {Content.Program}</th>
+                    <th colSpan={2}>Area Covered in {Content?.Program}</th>
                   </tr> 
                   {Content?.Page1?.CoveredCategories?.map((c,index)=>{return(
                   <tr>
                     <td>{c.Category}</td>
-                    <td style={{ textAlign: "center" }}>{c.NoofCourses}</td>
-                    <td style={{ textAlign: "center" }}>{c.NoofCredits}</td>
+                    <td style={{ textAlign: "center" }}>{c?.NoofCourses}</td>
+                    <td style={{ textAlign: "center" }}>{c?.NoofCredits}</td>
                   </tr>                  
                   )})}
                   <tr>
@@ -123,8 +123,8 @@ export default function SOSFinal() {
                   {Content?.Page1?.DomainCategories?.map((c,index)=>{return(
                   <tr>
                     <td>{c.Category}</td>
-                    <td style={{ textAlign: "center" }}>{c.NoofCourses}</td>
-                    <td style={{ textAlign: "center" }}>{c.NoofCredits}</td>
+                    <td style={{ textAlign: "center" }}>{c?.NoofCourses}</td>
+                    <td style={{ textAlign: "center" }}>{c?.NoofCredits}</td>
                   </tr>                  
                   )})}
                   <tr>
@@ -157,8 +157,8 @@ export default function SOSFinal() {
                         return (
                           <tr>
                             <td className="col-1">{index + 1}</td>
-                            <td className="col-2">{i.Code}</td>
-                            <td className="col-5">{i.Name}</td>
+                            <td className="col-2">{i?.Code}</td>
+                            <td className="col-5">{i?.Name}</td>
                             <td className="col-2">
                               {i.Credit +
                                 "(" +
@@ -169,7 +169,7 @@ export default function SOSFinal() {
                             </td>
                             <td className="col-2">
                               {" "}
-                              {i?.PreRequisites?.map((z) => z.Name)}
+                              {i?.PreRequisites?.map((z) => z?.Name)}
                             </td>
                           </tr>
                         );
@@ -177,19 +177,19 @@ export default function SOSFinal() {
                     </tbody>
                   </table>
                   <div>
-                    <p>{x.Note}</p>
+                    <p>{x?.Note}</p>
                   </div>
                 </>
               );
             })}
 
-            {Content.Categories.map((x) => {
+            {Content?.Categories?.map((x) => {
               // {Category:"",Optional:"",Track:"",Courses:[],Note:""}
 
               return (
                 <div>
                   <div>
-                    <h5>{x.Category}</h5>
+                    <h5>{x?.Category}</h5>
 
                     <div style={{ paddingBottom: 20 }} className="row">
                       {x?.Courses?.map((i, index) => {
@@ -197,25 +197,25 @@ export default function SOSFinal() {
                           <>
                             <div className="col">
                               <h6>
-                                <b>Course Code: </b> {i.Code}
+                                <b>Course Code: </b> {i?.Code}
                               </h6>
                             </div>
                             <div className="col">
                               <h6 style={{ textAlign: "right" }}>
                                 <b>Pre-Requisite: </b>
-                                {i?.PreRequisites?.map((z) => z.Name)}
+                                {i?.PreRequisites?.map((z) => z?.Name)}
                               </h6>
                             </div>
                             <h6 style={{ paddingBottom: 20 }}>
-                              <b>Course Title: </b> {i.Name}
+                              <b>Course Title: </b> {i?.Name}
                             </h6>
                             <h6 style={{ paddingBottom: 35 }}>
                               <b>Credit Hour: </b>
                               {i.Credit +
                                 "(" +
-                                i.LectureHoursWeek +
+                                i?.LectureHoursWeek +
                                 "," +
-                                i.LabHoursWeek +
+                                i?.LabHoursWeek +
                                 ")"}
                             </h6>
 
@@ -223,7 +223,7 @@ export default function SOSFinal() {
                               <h5>Course Objectives: </h5>
                               <ul>
                                 {i?.objectiveList?.map((z) => {
-                                  return <li>{z.title}</li>;
+                                  return <li>{z?.title}</li>;
                                 })}
                               </ul>
                             </div>
@@ -237,9 +237,9 @@ export default function SOSFinal() {
                                 {i?.Books?.map((z) => {
                                   return (
                                     <li>
-                                      {z.BookName}
-                                      {z.BookWriter}
-                                      {z.BookYear}
+                                      {z?.BookName}
+                                      {z?.BookWriter}
+                                      {z?.BookYear}
                                     </li>
                                   );
                                 })}
