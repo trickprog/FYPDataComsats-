@@ -1,4 +1,5 @@
 var coursedoc = require("../../Models/CourseModels/Course");
+var coursedoc2 = require("../../Models/CourseModels/SOSCourse");
 
 module.exports.Add = async (req, res) => {
   try {
@@ -50,7 +51,7 @@ module.exports.ShowOne = async (req, res) => {
 module.exports.ShowAuthors = async (req, res) => {
   try {
     if (!req.user) return await res.json("Timed Out");
-    const course = await coursedoc.findOne({Code:req.params.Code}).populate('PreRequisites');
+    const course = await coursedoc2.findOne({Code:req.params.Code}).populate('PreRequisites');
     console.log("course",course)
     var arr = course.Books.map((e) => {
       var aa = e.split(",")
