@@ -84,9 +84,10 @@ function HandleButton(row) {
         color="primary"
         size="small"
         style={muiAbtn}
-        // onClick={() => {
-
-        // }}
+        onClick={async() => {
+          const res = await axios.delete(`http://localhost:4000/AssginFolders/delone/${row._id}`);          
+          getData();
+        }}
       >
         <AiFillDelete style={{ marginRight: 10 }} />
         Delete
