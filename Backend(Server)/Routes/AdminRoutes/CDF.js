@@ -7,6 +7,8 @@ var CDF = require("../../Controler/AdminControllers/CDFs");
 router.route("/ReturnedCourseCDF/:Code").get(returnedCDF.ViewOne);
 router.route("/showAllgen").get(CDF.Showallgen);
 
+router.route("/showOnegen/:id").get(CDF.ShowOnegen);
+
 router.route("/show").get(CDF.Showall);
 router.route("/shower/:Code").get(CDF.Shower);
 router.route("/showOne/:Program/:Code").get(CDF.ShowerOne);

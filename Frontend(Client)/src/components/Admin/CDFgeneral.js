@@ -80,7 +80,7 @@ export default function AllCDFs() {
           size="small"
           style={muiAbtn}
           onClick={() => {
-            navigate(`/Admin/CDFsView/${row.Program}/${row.Code}/${row._id}`, {
+            navigate(`/Admin/genCDFsView/${row.Code}/${row._id}`, {
               replace: true,
             });
           }}

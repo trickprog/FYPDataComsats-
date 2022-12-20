@@ -64,6 +64,9 @@ import CourseFolderCombinedReport from "../PdfTemplates/CourseFolderCombinedRepo
 import Programcoursesall from "../Admin/Programcourses";
 import Gensyllabusall from "../Admin/Syllabusgen";
 import GenCDFall from "../Admin/CDFgeneral";
+import ProgramcorseShow from "../Admin/ProgramcorseShow";
+import CDFgenshow from "../Admin/CDFgenshow";
+import SyllabusgenShow from "../Admin/SyllabusgenShow";
 
 function AdminRoutes() {
   return (
@@ -74,6 +77,12 @@ function AdminRoutes() {
         <Route path="/AllCategories" element={<AllCategories />} />
         <Route path="/AddNewCourse" element={<AddNewCourse />} />
         <Route path="/AllCourses" element={<AllCourses />} />
+        
+        <Route path="/ProgramCourseView/:id" element={<ProgramcorseShow />} />
+        <Route path="/genCDFsView/:Code/:id" element={<CDFgenshow />} />
+        
+        <Route path="/SyllabusgenView/Code/id" element={<SyllabusgenShow />} />
+
         
         <Route path="/AllProgramCourses" element={<Programcoursesall />} />
         

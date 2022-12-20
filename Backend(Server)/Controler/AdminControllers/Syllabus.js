@@ -33,6 +33,17 @@ module.exports.Showallgen = async (req, res) => {
   }
 };
 
+module.exports.ShowOnegen = async (req, res) => {
+  try {
+    if (!req.user) return await res.json("Timed Out");
+    const Syllabus = await Syllabusgendoc.findById(req.params.id)
+    console.log(Syllabus)
+    await res.json(Syllabus);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports.Showall = async (req, res) => {
   try {
     console.log(req.user)

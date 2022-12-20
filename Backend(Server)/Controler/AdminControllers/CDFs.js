@@ -1,9 +1,21 @@
 var CDFdoc = require("../../Models/CDFModels/CDF");
 var coursedoc = require("../../Models/CourseModels/ProgramWiseCourses");
 var coursedocgen = require("../../Models/CourseModels/Course");
-
 var CDFgendoc = require("../../Models/CDFModels/CDFGeneral");
 var BTL = require("../../Models/SOBTL/BTL");
+
+module.exports.ShowOnegen = async (req, res) => {
+  try {
+    if (!req.user) return await res.json("Timed Out");
+    const CDF = await CDFgendoc.findById(req.params.id)
+      .populate({ path: "CLOs", populate: { path: "BTL", model: "BTL" } })
+      .populate({ path: "CLOs", populate: { path: "So", model: "SOO" } });
+    console.log(CDF);
+    await res.json(CDF);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports.Showall = async (req, res) => {
   try {

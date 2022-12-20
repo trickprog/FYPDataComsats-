@@ -79,7 +79,7 @@ export default function AllSyllabus() {
           style={muiAbtn}
           onClick={() => {
             navigate(
-              `/Admin/SyllabusView/${row.Program}/${row.Code}/${row._id}`,
+              `/Admin/SyllabusgenView/${row.Code}/${row._id}`,
               {
                 replace: true,
               }
