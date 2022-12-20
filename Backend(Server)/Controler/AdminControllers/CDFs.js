@@ -1,7 +1,10 @@
 var CDFdoc = require("../../Models/CDFModels/CDF");
 var coursedoc = require("../../Models/CourseModels/ProgramWiseCourses");
+var coursedocgen = require("../../Models/CourseModels/Course");
+
 var CDFgendoc = require("../../Models/CDFModels/CDFGeneral");
 var BTL = require("../../Models/SOBTL/BTL");
+
 module.exports.Showall = async (req, res) => {
   try {
     console.log(req.user);
@@ -35,6 +38,41 @@ module.exports.Showall = async (req, res) => {
     console.log(err);
   }
 };
+
+module.exports.Showallgen = async (req, res) => {
+  try {
+    console.log(req.user);
+    if (!req.user) return await res.json("Timed Out");
+    const CDF = await CDFgendoc.find({});
+    const course = await coursedocgen.find({});
+    const CDFf = CDF.map((i) => {
+      const coursefilt = course.find((e) => {
+        if (e.Code == i.Code) {
+          console.log("here");
+          const nam = e.Name;
+          return nam;
+        }
+      });
+      console.log("\nnames", coursefilt.Name);
+      i.Name = coursefilt.Name;
+      return {
+        _id: i._id,
+        Program: i.Program,
+        Code: i.Code,
+        Name: coursefilt.Name,
+        Topics: i.Topics,
+        CLOs: i.CLOs,
+        textBook: i.textBook,
+        referenceBook: i.referenceBook,
+      };
+    });
+    console.log("all CDFs", CDFf);
+    await res.json(CDFf);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 module.exports.Shower = async (req, res) => {
   try {

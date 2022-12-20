@@ -5,6 +5,8 @@ var returnedsyllabus = require("../../Controler/AdminControllers/ReturnedSyllabu
 
 router.route("/show").get(Syllabus.Showall);
 router.route("/ReturnedCourse/:Code").get(returnedsyllabus.ViewOne);
+router.route("/showAllgen").get(Syllabus.Showallgen);
+
 router.route("/:id").delete(Syllabus.Delete).get(Syllabus.ShowOne);
 router.route("/shower/:Code").get(Syllabus.Shower);
 router.route("/showcodeandprogram/:Program/:Code").get(Syllabus.ShowbyProgramandCode);

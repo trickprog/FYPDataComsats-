@@ -345,6 +345,16 @@ export default function Navigation() {
                     <Link
                       style={{ marginLeft: "12px", fontSize: "14px" }}
                       class="nav-link sidenavtext "
+                      to="AllProgramCourses"
+                    >
+                      <div class="sb-nav-link-icon">
+                        <BsCollectionFill color="#fff" />
+                      </div>
+                      All Programwise Courses
+                    </Link>
+                    <Link
+                      style={{ marginLeft: "12px", fontSize: "14px" }}
+                      class="nav-link sidenavtext "
                       to="AllCourses"
                     >
                       <div class="sb-nav-link-icon">
@@ -471,7 +481,16 @@ export default function Navigation() {
                       </div>
                       Scheme of Studies
                     </Link>
-
+                    <Link
+                      class="nav-link sidenavtext "
+                      to="GenCDFall"
+                      style={{ marginLeft: "12px", fontSize: "14px" }}
+                    >
+                      <div class="sb-nav-link-icon">
+                        <BsFillFilePdfFill color="#fff" />
+                      </div>
+                      General CDFs
+                    </Link>
                     <Link
                       class="nav-link sidenavtext "
                       to="AllCDFs"
@@ -481,6 +500,16 @@ export default function Navigation() {
                         <BsFillFilePdfFill color="#fff" />
                       </div>
                       CDFs
+                    </Link>                    
+                    <Link
+                      class="nav-link sidenavtext "
+                      to="Gensyllabusall"
+                      style={{ marginLeft: "12px", fontSize: "14px" }}
+                    >
+                      <div class="sb-nav-link-icon">
+                        <BsFillFilePdfFill color="#fff" />
+                      </div>
+                      General Syllabus
                     </Link>
                     <Link
                       class="nav-link sidenavtext "

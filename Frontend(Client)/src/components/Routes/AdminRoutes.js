@@ -61,6 +61,9 @@ import FacultyCourseReport from "../PdfTemplates/FacultyCourseReport";
 import EvaluatorCourseReport from "../PdfTemplates/EvaluatorCourseReport";
 import ReturnedPage from "../Faculty/ReturnedPageEvaluator";
 import CourseFolderCombinedReport from "../PdfTemplates/CourseFolderCombinedReport";
+import Programcoursesall from "../Admin/Programcourses";
+import Gensyllabusall from "../Admin/Syllabusgen";
+import GenCDFall from "../Admin/CDFgeneral";
 
 function AdminRoutes() {
   return (
@@ -71,6 +74,12 @@ function AdminRoutes() {
         <Route path="/AllCategories" element={<AllCategories />} />
         <Route path="/AddNewCourse" element={<AddNewCourse />} />
         <Route path="/AllCourses" element={<AllCourses />} />
+        
+        <Route path="/AllProgramCourses" element={<Programcoursesall />} />
+        
+        <Route path="/Gensyllabusall" element={<Gensyllabusall />} />
+        <Route path="/GenCDFall" element={<GenCDFall />} />
+        
         <Route path="/CourseView/:id" element={<CourseFinal />} />
         <Route path="/AllCourses" element={<AllCourses />} />
         <Route path="/CourseFolderReport" element={<CourseFolderReport />} />
