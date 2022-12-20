@@ -29,7 +29,7 @@ export default function Home() {
     setOpen(false);
   };
   const getPrograms = async () => {
-    const res = await axios.get("http://localhost:4000/SOS/Programs");
+    const res = await axios.get("http://localhost:4000/SOS/ProgramsHome");
     setProgramdb(res.data);
   };
   const getProgramYears = async (Program) => {
