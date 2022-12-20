@@ -1,6 +1,7 @@
 var Folderdoc = require("../../../Models/Folders");
 var Userdoc = require("../../../Models/User");
 const Mail = require("../../../helpers/mailing");
+var Folders=require("../../../Models/Folders")
 
 module.exports.FinishOne = async (req, res) => {
   if (!req.user) return await res.status(401).json("Timed Out");
@@ -11,6 +12,24 @@ module.exports.FinishOne = async (req, res) => {
   });
   await res.status(201).json(up);
 };
+
+module.exports.deleteOne = async (req, res) => {
+  if (!req.user) return await res.status(401).json("Timed Out");
+  if (!req.user.Roles.includes("Admin"))
+    return await res.status(401).json("UnAutherized");
+  
+    const folder = await Folders.findById(req.params.id).populate("Course")
+    .populate("User").populate("Evaluator")
+
+    const up = await Userdoc.findByIdAndUpdate(folder.User._id, {
+    CourseFolders: [],
+  });
+   await Folders.deleteOne(req.params.id)
+
+  await res.status(201).json(up);
+};
+
+
 
 module.exports.FinishAll = async (req, res) => {
   if (!req.user) return await res.status(401).json("Timed Out");

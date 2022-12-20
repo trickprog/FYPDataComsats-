@@ -33,10 +33,7 @@ module.exports.showUsers = async (req, res) => {
     var arr2 = ["Create Catalog Description","Update Catalog Description"]
     var task  = await Task.findOne({taskType:{$in:arr2},User:req.user._id,Course:rm}).populate("User")
     .populate({path:"User",Model:"User", populate:{path:"CourseCreation",model:"Repo"}})
-    if(!task){
-      task = await Task.findOne({taskType:"Update Catalog Description",User:req.user._id,Course:rm}).populate("User")
-    .populate({path:"User",Model:"User", populate:{path:"CourseCreation",model:"Repo"}})
-    }
+    
     const date=new Date(Date.now())
     const date2=new Date(task.Deadline)
     if(date2<date){return await res.status(401).json("Deadline Passed")}

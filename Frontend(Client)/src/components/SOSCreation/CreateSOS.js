@@ -105,7 +105,8 @@ export default function CreateSOS() {
       var r = Category.find((i) => i.Category == e.Category);
       if (e.Courses.length != r.NoofCourses) {
         check = false;
-        alert("In " + cats.Category + " Number of courses is greater");
+        // cats.Category
+        alert("In " + e?.Category + " Number of courses is greater");
       }
     });
     if(Year.length!=4){

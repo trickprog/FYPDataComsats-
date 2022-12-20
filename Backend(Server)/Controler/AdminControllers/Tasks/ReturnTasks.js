@@ -52,7 +52,8 @@ module.exports.Lock = async (req, res) => {
         console.log(obj)
         var finalcourse
         if(task.taskType=="Create Catalog Description"){
-         finalcourse = await coursedoc.create({
+          const SOS = await SOSdoc.find({})        
+          finalcourse = await coursedoc.create({
           Code: obj.Code,
           Name: obj.Name,
           Credit: obj.Credit,
@@ -63,25 +64,8 @@ module.exports.Lock = async (req, res) => {
           catalogue: obj.catalogue,
           objectiveList:obj.objectiveList ,
           Books:obj.Books
-        });      
-      }
-        else if(task.taskType=="Update Catalog Description"){
-          finalcourse = await coursedoc.findOneAndUpdate({Code:obj.Code},{
-            Code: obj.Code,
-            Name: obj.Name,
-            Credit: obj.Credit,
-            LectureHoursWeek: obj.LectureHoursWeek ,
-            LabHoursWeek:obj.LabHoursWeek,
-            Category:obj.Category,
-            PreRequisites:obj.PreRequisites,
-            catalogue: obj.catalogue,
-            objectiveList:obj.objectiveList ,
-            Books:obj.Books
-         });
-         
-         const SOS = await SOSdoc.find({})
-        
-          await Promise.all(SOS.map(async(i)=>{
+        });
+        await Promise.all(SOS.map(async(i)=>{
           const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
           if(pcors){
             const CDF = await ProgramCourses.findOneAndUpdate({Code: obj.Code,Program:i.Program},{
@@ -92,6 +76,40 @@ module.exports.Lock = async (req, res) => {
               LabHoursWeek:obj.LabHoursWeek,
               Category:obj.Category,
               PreRequisites:obj.PreRequisites,
+              catalogue: obj.catalogue,
+              objectiveList:obj.objectiveList ,
+              Books:obj.Books
+            })
+              console.log("finalCDF",CDF)}
+              }
+            ))      
+      }
+        else if(task.taskType=="Update Catalog Description"){
+          finalcourse = await coursedoc.findOneAndUpdate({Code:obj.Code},{
+            Code: obj.Code,
+            Name: obj.Name,
+            Credit: obj.Credit,
+            LectureHoursWeek: obj.LectureHoursWeek ,
+            LabHoursWeek:obj.LabHoursWeek,
+            Category:obj.Category,
+            catalogue: obj.catalogue,
+            objectiveList:obj.objectiveList ,
+            Books:obj.Books
+         });
+         
+         const SOS = await SOSdoc.find({})
+        
+
+          await Promise.all(SOS.map(async(i)=>{
+          const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
+          if(pcors){
+            const CDF = await ProgramCourses.findOneAndUpdate({Code: obj.Code,Program:i.Program},{
+              Code: obj.Code,
+              Name: obj.Name,
+              Credit: obj.Credit,
+              LectureHoursWeek: obj.LectureHoursWeek ,
+              LabHoursWeek:obj.LabHoursWeek,
+              Category:obj.Category,
               catalogue: obj.catalogue,
               objectiveList:obj.objectiveList ,
               Books:obj.Books
@@ -301,6 +319,8 @@ module.exports.Lock = async (req, res) => {
             referenceBook:obj.referenceBook
             })
           await Promise.all(SOS.map(async(i)=>{
+            const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
+            if(pcors){
             const Syllabus = await Syllabusdoc.create({
               Program:i.Program,
               Code: obj.Code,
@@ -309,7 +329,8 @@ module.exports.Lock = async (req, res) => {
               referenceBook:obj.referenceBook
               })
               console.log("finalSyllabus",Syllabus)
-              }
+              }  
+            }
             ) 
           )
         }
@@ -321,6 +342,8 @@ module.exports.Lock = async (req, res) => {
             referenceBook:obj.referenceBook
             })
           await Promise.all(SOS.map(async(i)=>{
+            const pcors = await ProgramCourses.findOne({Program:i.Program,Code:obj.Code})            
+            if(pcors){
             const Syllabus = await Syllabusdoc.findOneAndUpdate({Program:i.Program,
               Code: obj.Code},{
               Program:i.Program,
@@ -329,7 +352,7 @@ module.exports.Lock = async (req, res) => {
               textBook: obj.textBook ,
               referenceBook:obj.referenceBook
               })
-              console.log("finalSyllabus",Syllabus)
+              console.log("finalSyllabus",Syllabus)}
               }
             ) 
           )

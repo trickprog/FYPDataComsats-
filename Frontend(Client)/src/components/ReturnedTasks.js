@@ -165,7 +165,7 @@ export default function ReturnedTasks() {
     {
       field: "User",
       headerName: "Assigned To",
-      valueGetter: (params) => params?.row?.User?.Name,
+      valueGetter: (params) => params?.row?.User?.map((i)=>{return i?.Name}),
       width: 170,
     },
 

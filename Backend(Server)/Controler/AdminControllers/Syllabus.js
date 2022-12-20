@@ -1,6 +1,48 @@
 var Syllabusdoc = require("../../Models/SyallabusModels/Syllabus");
 var coursedoc = require("../../Models/CourseModels/ProgramWiseCourses");
 var Syllabusgendoc = require("../../Models/SyallabusModels/SyllabusGeneral");
+var coursedocgen = require("../../Models/CourseModels/ProgramWiseCourses");
+
+module.exports.Showallgen = async (req, res) => {
+  try {
+    console.log(req.user)
+    if (!req.user) return await res.json("Timed Out");
+    const Syllabus = await Syllabusgendoc.find({});
+    const course = await coursedocgen.find({}); 
+    const Syllabusf = Syllabus.map(i=>{
+        const coursefilt = course.find(e=>{
+            if(e.Code==i.Code){
+              console.log("here")
+              const nam=e.Name
+              return(nam)
+                
+            }
+          })
+          console.log(coursefilt.Name)
+
+          i.Name=coursefilt.Name
+          
+          console.log(i)
+
+          return({_id:i._id,Code:i.Code,Name:coursefilt.Name,Plan:i.Plan})
+    })
+    console.log("all Syllabuss", Syllabusf);
+    await res.json(Syllabusf);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports.ShowOnegen = async (req, res) => {
+  try {
+    if (!req.user) return await res.json("Timed Out");
+    const Syllabus = await Syllabusgendoc.findById(req.params.id)
+    console.log(Syllabus)
+    await res.json(Syllabus);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports.Showall = async (req, res) => {
   try {

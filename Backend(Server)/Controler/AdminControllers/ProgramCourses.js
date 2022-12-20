@@ -14,6 +14,18 @@ module.exports.Showall = async (req, res) => {
   }
 };
 
+module.exports.Showallithprograms = async (req, res) => {
+  try {
+    console.log(req.user);
+    if (!req.user) return await res.json("Timed Out");
+    const course = await coursedoc.find({});
+    console.log("all courses", course);
+    await res.json(course);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports.ShowallwithCDF = async (req, res) => {
   try {
     console.log(req.user);

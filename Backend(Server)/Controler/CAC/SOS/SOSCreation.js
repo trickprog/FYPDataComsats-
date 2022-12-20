@@ -35,7 +35,7 @@ module.exports.showUsers = async (req, res) => {
     console.log("\n\n\n\n\n\n\n\n obj",obj)
     
     const already  = await SOS.findOne({Program:obj.Program,Year:obj.Year})
-    if(already){return await res.status(401).json("SOS of this program for this year has already been made")}
+    if(already&&task.taskType=="Create SOS"){return await res.status(401).json("SOS of this program for this year has already been made")}
     
     task.Status = "Returned"
     console.log("\n\n\n\n\n\n\n\n",task,"\n\n\n\n\n\n\n\n")
