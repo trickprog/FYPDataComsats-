@@ -25,12 +25,12 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 500,
   bgcolor: "#fff",
-  boxShadow: 24,
+  mdhadow: 24,
   p: 4,
-  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+  mdhadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
 };
 
-const cardStyle = {};
+const cardStyle = {width:"100%"};
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -561,49 +561,48 @@ export default function CacAvailability() {
             </Box>
           </Modal>
 
-          <div style={{ padding: 30 }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={2} style={{ marginBottom: 30 }}>
-                <Grid item xs={4}>
-                  <Item style={cardStyle}>
+          <div  style={{ padding: 30 }}>
+           
+              <Grid  className="d-md-flex"  style={{ marginBottom: 30 }}>
+                <Grid item md={4} sm={12} className="m-2">
+                  <Item style={cardStyle} >
                     <h1>Monday</h1>
                     <h5>{availabilityData?.mon}</h5>
                   </Item>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item md={4} sm={12} className="m-2">
                   <Item style={cardStyle}>
                     <h1>Tuesday</h1>
                     <h5>{availabilityData?.tue}</h5>
                   </Item>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item md={4} sm={12} className="m-2">
                   <Item style={cardStyle}>
                     <h1>Wednesday</h1>
                     <h5>{availabilityData?.wed}</h5>
                   </Item>
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={4}>
+              <Grid className="d-md-flex">
+                <Grid item md={4} sm={12} className="m-2">
                   <Item style={cardStyle}>
                     <h1>Thursday</h1>
                     <h5>{availabilityData?.thur}</h5>
                   </Item>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item md={4} sm={12} className="m-2">
                   <Item style={cardStyle}>
                     <h1>Friday</h1>
                     <h5>{availabilityData?.fri}</h5>
                   </Item>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item md={4} sm={12} className="m-2">
                   <Item style={cardStyle}>
                     <h1>Saturday</h1>
                     <h5>{availabilityData?.sat}</h5>
                   </Item>
                 </Grid>
               </Grid>
-            </Box>
           </div>
         </Card>
       </div>
